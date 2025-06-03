@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { UserProfile } from '../UserProfile';
 import './Header.css';
 
 const Header = () => {
@@ -92,75 +93,7 @@ const Header = () => {
               <li className="lang-option" data-lang="ru">RU</li>
             </ul>
           </div>
-          <div className="auth-buttons">
-            <button
-              className="auth-buttons__item"
-              onClick={() => window.openPopup('loginPopup')}
-            >
-              Login 🎉
-            </button>
-            <button
-              className="auth-buttons__item"
-              onClick={() => window.openPopup('signupPopup')}
-            >
-              Sign up 🚀
-            </button>
-          </div>
-          <div className="popup" id="loginPopup">
-            <div className="popup-content">
-              <span className="close">&times;</span>
-              <h2>Login Form</h2>
-              <form id="loginForm">
-                <label htmlFor="loginEmail">Email:</label>
-                <input
-                  type="email"
-                  id="loginEmail"
-                  name="email"
-                  placeholder="Enter your email"
-                  required
-                />
-
-                <label htmlFor="loginPassword">Password:</label>
-                <input
-                  type="password"
-                  id="loginPassword"
-                  name="password"
-                  placeholder="Enter your password"
-                  required
-                />
-
-                <button type="submit">Login</button>
-              </form>
-            </div>
-          </div>
-
-          <div className="popup" id="signupPopup">
-            <div className="popup-content">
-              <span className="close">&times;</span>
-              <h2>Sign Up Form</h2>
-              <form id="signupForm">
-                <label htmlFor="signupEmail">Email:</label>
-                <input
-                  type="email"
-                  id="signupEmail"
-                  name="email"
-                  placeholder="Enter your email"
-                  required
-                />
-
-                <label htmlFor="signupPassword">Password:</label>
-                <input
-                  type="password"
-                  id="signupPassword"
-                  name="password"
-                  placeholder="Enter your password"
-                  required
-                />
-
-                <button type="submit">Sign Up</button>
-              </form>
-            </div>
-          </div>
+          <UserProfile />
         </div>
       </div>
     </header>

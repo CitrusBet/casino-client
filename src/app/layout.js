@@ -1,4 +1,5 @@
 import "./globals.css";
+import { UserProvider } from "../contexts/UserContext";
 
 export const metadata = {
   title: "Casino - Play Your Favorite Games",
@@ -15,7 +16,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        {children}
+        <UserProvider>
+          {children}
+        </UserProvider>
       </body>
     </html>
   );
