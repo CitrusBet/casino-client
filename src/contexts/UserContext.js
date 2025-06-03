@@ -1,15 +1,22 @@
 "use client"
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
 const API_URL = 'https://casino-server-ruby.vercel.app';
 
 const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const storedToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
 
   const login = useCallback(async (credentials) => {
     setIsLoading(true);
@@ -31,8 +38,10 @@ export const UserProvider = ({ children }) => {
 
       const { token: newToken } = data;
       setToken(newToken);
-      localStorage.setItem('token', newToken);
-
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('token', newToken);
+      }
+      
       await fetchProfile(newToken);
     } catch (err) {
       setError(err.message || 'Login failed');
@@ -62,8 +71,10 @@ export const UserProvider = ({ children }) => {
 
       const { token: newToken } = data;
       setToken(newToken);
-      localStorage.setItem('token', newToken);
-
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('token', newToken);
+      }
+      
       await fetchProfile(newToken);
     } catch (err) {
       setError(err.message || 'Registration failed');
@@ -100,7 +111,9 @@ export const UserProvider = ({ children }) => {
     try {
       setToken(null);
       setProfile(null);
-      localStorage.removeItem('token');
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+      }
     } catch (err) {
       setError(err.message || 'Logout failed');
       throw err;
@@ -137,11 +150,13 @@ export const UserProvider = ({ children }) => {
     }
   }, [token]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (token) {
       fetchProfile(token).catch(() => {
         setToken(null);
-        localStorage.removeItem('token');
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token');
+        }
       });
     }
   }, [token, fetchProfile]);
