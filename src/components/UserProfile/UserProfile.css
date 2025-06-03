@@ -45,6 +45,23 @@
   font-size: 0.75rem;
 }
 
+.user-profile__token-status {
+  font-size: 0.7rem;
+  padding: 0.125rem 0.25rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.user-profile__token-status.valid {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.user-profile__token-status.expired {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
 .user-profile__logout {
   background: rgba(239, 68, 68, 0.2);
   color: #ef4444;

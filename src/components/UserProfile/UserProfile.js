@@ -2,11 +2,13 @@
 
 import { useUser } from '../../contexts/UserContext';
 import { useAuthModal } from '../../hooks/useAuthModal';
+import { useToken } from '../../hooks/useToken';
 import { LoginModal, RegisterModal } from '../Auth';
 import './UserProfile.css';
 
 export default function UserProfile() {
-  const { user, isAuthenticated, isGuest, loginAsGuest, logout, loading } = useUser();
+  const { user, isAuthenticated, logout, loading } = useUser();
+  const { isTokenValid, getTokenExpiration, isTokenExpired } = useToken();
   const {
     isLoginModalOpen,
     isRegisterModalOpen,
@@ -26,6 +28,9 @@ export default function UserProfile() {
   }
 
   if (isAuthenticated) {
+    const tokenExpiration = getTokenExpiration();
+    const expired = isTokenExpired();
+    
     return (
       <div className="user-profile">
         <div className="user-profile__info">
@@ -37,6 +42,11 @@ export default function UserProfile() {
             {user.email && (
               <span className="user-profile__email">{user.email}</span>
             )}
+            {tokenExpiration && (
+              <span className={`user-profile__token-status ${expired ? 'expired' : 'valid'}`}>
+                Токен: {expired ? 'истёк' : 'действителен до ' + tokenExpiration.toLocaleString()}
+              </span>
+            )}
           </div>
         </div>
         <button onClick={logout} className="user-profile__logout">
@@ -46,41 +56,11 @@ export default function UserProfile() {
     );
   }
 
-  if (isGuest) {
-    return (
-      <div className="user-profile">
-        <div className="user-profile__guest">
-          <span className="user-profile__guest-label">Гость</span>
-          <div className="user-profile__guest-actions">
-            <button onClick={openLoginModal} className="user-profile__btn user-profile__btn--login">
-              Войти
-            </button>
-            <button onClick={openRegisterModal} className="user-profile__btn user-profile__btn--register">
-              Регистрация
-            </button>
-          </div>
-        </div>
-        
-        <LoginModal 
-          isOpen={isLoginModalOpen}
-          onClose={closeModal}
-          onSwitchToRegister={switchToRegister}
-        />
-        <RegisterModal 
-          isOpen={isRegisterModalOpen}
-          onClose={closeModal}
-          onSwitchToLogin={switchToLogin}
-        />
-      </div>
-    );
-  }
+
 
   return (
     <div className="user-profile">
       <div className="user-profile__actions">
-        <button onClick={loginAsGuest} className="user-profile__btn user-profile__btn--guest">
-          Играть как гость
-        </button>
         <button onClick={openLoginModal} className="user-profile__btn user-profile__btn--login">
           Войти
         </button>

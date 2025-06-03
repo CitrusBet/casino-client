@@ -4,13 +4,11 @@ import { useUser } from '../../contexts/UserContext';
 import './HeroSection.css';
 
 const HeroSection = () => {
-  const { user, isAuthenticated, isGuest } = useUser();
+  const { user, isAuthenticated } = useUser();
 
   const getGreeting = () => {
     if (isAuthenticated && user) {
       return `Добро пожаловать, ${user.username}!`;
-    } else if (isGuest) {
-      return 'Добро пожаловать, Гость!';
     }
     return 'Присоединяйтесь к нашему казино!';
   };
