@@ -6,11 +6,11 @@ import './AuthModal.css';
 
 export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
   const [error, setError] = useState('');
-  const { login } = useUser();
+  const { login, isLoading } = useUser();
 
   const handleChange = (e) => {
     setFormData({
@@ -23,21 +23,20 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
     e.preventDefault();
     setError('');
 
-    if (!formData.username || !formData.password) {
+    if (!formData.email || !formData.password) {
       setError('Заполните все поля');
       return;
     }
 
-    const result = await login({
-      username: formData.username,
-      email: `${formData.username}@example.com`
-    });
-
-    if (result.success) {
+    try {
+      await login({
+        email: formData.email,
+        password: formData.password
+      });
       onClose();
-      setFormData({ username: '', password: '' });
-    } else {
-      setError(result.error || 'Ошибка авторизации');
+      setFormData({ email: '', password: '' });
+    } catch (err) {
+      setError(err.message || 'Ошибка авторизации');
     }
   };
 
@@ -53,10 +52,10 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="auth-form__group">
             <input
-              type="text"
-              name="username"
-              placeholder="Имя пользователя"
-              value={formData.username}
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
               onChange={handleChange}
               className="auth-form__input"
             />
@@ -75,8 +74,12 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
           
           {error && <div className="auth-form__error">{error}</div>}
           
-          <button type="submit" className="auth-form__submit">
-            Войти
+          <button 
+            type="submit" 
+            className="auth-form__submit"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Загрузка...' : 'Войти'}
           </button>
         </form>
         

@@ -1,298 +1,172 @@
-'use client';
+"use client"
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
-import { createContext, useContext, useReducer, useEffect } from 'react';
+const API_URL = 'https://casino-server-ruby.vercel.app';
 
-const UserContext = createContext();
+const UserContext = createContext(null);
 
-const setUserAction = (dispatch, userData) => {
-  try {
-    
-  } catch (error) {
-    console.error('Ошибка при установке пользователя:', error);
-  } finally {
-    dispatch({
-      type: 'SET_USER',
-      payload: {
-        ...userData,
-        user: userData,
-        isAuthenticated: true,
-        loading: false
+export const UserProvider = ({ children }) => {
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [profile, setProfile] = useState(null);
+
+  const login = useCallback(async (credentials) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
       }
-    });
-  }
-};
 
+      const { token: newToken } = data;
+      setToken(newToken);
+      localStorage.setItem('token', newToken);
 
-
-const logoutAction = (dispatch) => {
-  try {
-    
-  } catch (error) {
-    console.error('Ошибка при выходе:', error);
-  } finally {
-    dispatch({
-      type: 'LOGOUT',
-      payload: {
-        user: null,
-        isAuthenticated: false,
-        isGuest: false,
-        loading: false
-      }
-    });
-  }
-};
-
-const setLoadingAction = (dispatch, loadingState) => {
-  try {
-    
-  } catch (error) {
-    console.error('Ошибка при установке состояния загрузки:', error);
-  } finally {
-    dispatch({
-      type: 'SET_LOADING',
-      payload: {
-        loading: loadingState
-      }
-    });
-  }
-};
-
-const userReducer = (state, action) => {
-  switch (action.type) {
-    case 'SET_USER':
-      return {
-        ...state,
-        user: action.payload.user,
-        isAuthenticated: action.payload.isAuthenticated,
-        loading: action.payload.loading
-      };
-    case 'LOGOUT':
-      return {
-        ...state,
-        user: action.payload.user,
-        isAuthenticated: action.payload.isAuthenticated,
-        loading: action.payload.loading
-      };
-    case 'SET_LOADING':
-      return {
-        ...state,
-        loading: action.payload.loading
-      };
-    default:
-      return state;
-  }
-};
-
-const initialState = {
-  user: null,
-  isAuthenticated: false,
-  loading: true
-};
-
-const validateTokenAndGetUser = (token) => {
-  try {
-    if (!token || token === 'guest') return null;
-    
-    const tokenData = JSON.parse(atob(token.split('.')[1] || ''));
-    
-    if (tokenData.exp && tokenData.exp < Date.now() / 1000) {
-      return null;
-    }
-    
-    return {
-      id: tokenData.userId || tokenData.id,
-      username: tokenData.username,
-      email: tokenData.email
-    };
-  } catch (error) {
-    console.error('Ошибка при парсинге токена:', error);
-    return null;
-  }
-};
-
-const generateToken = (userData) => {
-  try {
-    const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
-    const payload = btoa(JSON.stringify({
-      userId: userData.id,
-      username: userData.username,
-      email: userData.email,
-      exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60)
-    }));
-    const signature = btoa('mock-signature');
-    
-    return `${header}.${payload}.${signature}`;
-  } catch (error) {
-    console.error('Ошибка при создании токена:', error);
-    return null;
-  }
-};
-
-export function UserProvider({ children }) {
-  const [state, dispatch] = useReducer(userReducer, initialState);
-
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    
-    if (token) {
-      try {
-        const userData = validateTokenAndGetUser(token);
-        if (userData) {
-          setUserAction(dispatch, userData);
-        } else {
-          localStorage.removeItem('authToken');
-          setLoadingAction(dispatch, false);
-        }
-      } catch (error) {
-        console.error('Ошибка при валидации токена:', error);
-        localStorage.removeItem('authToken');
-        setLoadingAction(dispatch, false);
-      }
-    } else {
-      setLoadingAction(dispatch, false);
+      await fetchProfile(newToken);
+    } catch (err) {
+      setError(err.message || 'Login failed');
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
-
-
-  const login = async (credentials) => {
-    setLoadingAction(dispatch, true);
-    
+  const register = useCallback(async (userData) => {
+    setIsLoading(true);
+    setError(null);
     try {
-      const user = {
-        id: Date.now(),
-        username: credentials.username,
-        email: credentials.email
-      };
-      
-      const token = generateToken(user);
-      if (!token) {
-        throw new Error('Не удалось создать токен авторизации');
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
       }
-      
-      localStorage.setItem('authToken', token);
-      setUserAction(dispatch, user);
-      
-      return { success: true, token };
-    } catch (error) {
-      setLoadingAction(dispatch, false);
-      return { success: false, error: error.message };
-    }
-  };
 
-  const register = async (userData) => {
-    setLoadingAction(dispatch, true);
-    
-    try {
-      const user = {
-        id: Date.now(),
-        username: userData.username,
-        email: userData.email
-      };
-      
-      const token = generateToken(user);
-      if (!token) {
-        throw new Error('Не удалось создать токен авторизации');
-      }
-      
-      localStorage.setItem('authToken', token);
-      setUserAction(dispatch, user);
-      
-      return { success: true, token };
-    } catch (error) {
-      setLoadingAction(dispatch, false);
-      return { success: false, error: error.message };
-    }
-  };
+      const { token: newToken } = data;
+      setToken(newToken);
+      localStorage.setItem('token', newToken);
 
-  const logout = () => {
-    try {
-      localStorage.removeItem('authToken');
-    } catch (error) {
-      console.error('Ошибка при очистке localStorage:', error);
+      await fetchProfile(newToken);
+    } catch (err) {
+      setError(err.message || 'Registration failed');
+      throw err;
     } finally {
-      logoutAction(dispatch);
+      setIsLoading(false);
     }
-  };
+  }, []);
 
-  const getToken = () => {
+  const fetchProfile = useCallback(async (authToken) => {
     try {
-      return localStorage.getItem('authToken');
-    } catch (error) {
-      console.error('Ошибка при получении токена:', error);
-      return null;
-    }
-  };
+      const response = await fetch(`${API_URL}/auth/profile`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
 
-  const validateCurrentToken = () => {
-    try {
-      const token = getToken();
-      return token ? validateTokenAndGetUser(token) : null;
-    } catch (error) {
-      console.error('Ошибка при валидации текущего токена:', error);
-      return null;
-    }
-  };
+      const data = await response.json();
 
-  const refreshUserFromToken = () => {
-    try {
-      const userData = validateCurrentToken();
-      if (userData) {
-        setUserAction(dispatch, userData);
-        return { success: true, user: userData };
-      } else {
-        logout();
-        return { success: false, error: 'Токен недействителен' };
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch profile');
       }
-    } catch (error) {
-      console.error('Ошибка при обновлении пользователя из токена:', error);
-      logout();
-      return { success: false, error: error.message };
+
+      setProfile(data);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch profile');
+      throw err;
     }
-  };
+  }, []);
+
+  const logout = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      setToken(null);
+      setProfile(null);
+      localStorage.removeItem('token');
+    } catch (err) {
+      setError(err.message || 'Logout failed');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const updateProfile = useCallback(async (userData) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/auth/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Profile update failed');
+      }
+
+      setProfile(data);
+    } catch (err) {
+      setError(err.message || 'Profile update failed');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [token]);
+
+  React.useEffect(() => {
+    if (token) {
+      fetchProfile(token).catch(() => {
+        setToken(null);
+        localStorage.removeItem('token');
+      });
+    }
+  }, [token, fetchProfile]);
 
   const value = {
-    ...state,
+    token,
+    profile,
+    isLoading,
+    error,
+    isAuthenticated: !!token,
     login,
     register,
     logout,
-    getToken,
-    validateCurrentToken,
-    refreshUserFromToken,
-    actions: {
-      setUserAction: (userData) => setUserAction(dispatch, userData),
-      logoutAction: () => logoutAction(dispatch),
-      setLoadingAction: (loadingState) => setLoadingAction(dispatch, loadingState)
-    }
+    updateProfile,
   };
 
-  return (
-    <UserContext.Provider value={value}>
-      {children}
-    </UserContext.Provider>
-  );
-}
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+};
 
-export function useUser() {
+export const useUser = () => {
   const context = useContext(UserContext);
-  if (context === undefined) {
-    throw new Error('useUser должен использоваться внутри UserProvider');
+  if (!context) {
+    throw new Error('useUser must be used within a UserProvider');
   }
   return context;
-}
+};
 
-export function useUserActions() {
-  const context = useContext(UserContext);
-  if (context === undefined) {
-    throw new Error('useUserActions должен использоваться внутри UserProvider');
-  }
-  return context.actions;
-}
-
-export {
-  setUserAction,
-  logoutAction,
-  setLoadingAction,
-  validateTokenAndGetUser,
-  generateToken
-}; 
+export default UserContext;

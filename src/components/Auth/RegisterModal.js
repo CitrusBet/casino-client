@@ -12,7 +12,7 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
     confirmPassword: ''
   });
   const [error, setError] = useState('');
-  const { register } = useUser();
+  const { register, isLoading } = useUser();
 
   const handleChange = (e) => {
     setFormData({
@@ -40,16 +40,16 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
       return;
     }
 
-    const result = await register({
-      username: formData.username,
-      email: formData.email
-    });
-
-    if (result.success) {
+    try {
+      await register({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password
+      });
       onClose();
       setFormData({ username: '', email: '', password: '', confirmPassword: '' });
-    } else {
-      setError(result.error || 'Ошибка регистрации');
+    } catch (err) {
+      setError(err.message || 'Ошибка регистрации');
     }
   };
 
@@ -109,8 +109,12 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
           
           {error && <div className="auth-form__error">{error}</div>}
           
-          <button type="submit" className="auth-form__submit">
-            Зарегистрироваться
+          <button 
+            type="submit" 
+            className="auth-form__submit"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Загрузка...' : 'Зарегистрироваться'}
           </button>
         </form>
         
