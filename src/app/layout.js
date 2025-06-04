@@ -14,6 +14,7 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
         />
+        <meta name="mailru-domain" content="SNMlI7ysBFSyAM6Z" />
       </head>
       <body>
         <UserProvider>
