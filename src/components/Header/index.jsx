@@ -2,9 +2,11 @@
 
 import { useEffect } from 'react';
 import { UserProfile } from '../UserProfile';
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 import './Header.css';
 
 const Header = () => {
+  const { isMobile, isTablet } = useBreakpoint();
   useEffect(() => {
     window.openPopup = function(popupId) {
       const popup = document.getElementById(popupId);
@@ -70,12 +72,14 @@ const Header = () => {
           <button className="button__search">
             <img src="/assets/icons/search.svg" alt="search" />
           </button>
-          <input
-            type="search"
-            name="search"
-            id="search"
-            placeholder="Search for casinos, games and more..."
-          />
+          {!isMobile && (
+            <input
+              type="search"
+              name="search"
+              id="search"
+              placeholder="Search for casinos, games and more..."
+            />
+          )}
         </div>
         <div className="auth-bar">
           <div className="lang-switcher">
