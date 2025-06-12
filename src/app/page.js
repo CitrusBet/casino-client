@@ -15,7 +15,11 @@ export default function Home() {
     <>
       <Script 
         src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
+        onLoad={() => {
+          console.log('Swiper скрипт загружен');
+          window.dispatchEvent(new Event('swiperLoaded'));
+        }}
       />
       
       <Header />

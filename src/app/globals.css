@@ -387,6 +387,19 @@ header {
 .arrow__slide {
   display: flex;
   gap: 10px;
+  z-index: 25;
+  position: relative;
+}
+
+/* Принудительные стили для устранения конфликтов */
+.swiper-button-prev,
+.swiper-button-next {
+  display: none !important;
+}
+
+.swiper {
+  --swiper-navigation-size: 0px;
+  --swiper-theme-color: transparent;
 }
 
 .all__games_arrow__slide a {
@@ -421,20 +434,48 @@ header {
   position: static !important;
   width: 29px;
   height: 29px;
-  background: #2d2d3a;
+  background: #2d2d3a !important;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: background 0.3s;
+  cursor: pointer !important;
   color: white;
   font-size: 16px;
+  border: none;
+  outline: none;
+  padding: 0;
+  box-sizing: border-box;
+  pointer-events: auto !important;
+  z-index: 30 !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .custom-swiper-button-prev:hover,
 .custom-swiper-button-next:hover {
-  background: #3d3d4a;
+  background: #3d3d4a !important;
+  transform: scale(1.1);
+}
+
+.custom-swiper-button-prev:active,
+.custom-swiper-button-next:active {
+  background: #4d4d5a !important;
+  transform: scale(0.9);
+  transition-duration: 0.1s !important;
+}
+
+.custom-swiper-button-prev img,
+.custom-swiper-button-next img {
+  pointer-events: none;
+  user-select: none;
+  transition: none;
+  width: 8px;
+  height: auto;
 }
 
 .main__content {

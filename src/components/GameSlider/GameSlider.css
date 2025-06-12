@@ -1,1 +1,195 @@
 /* GameSlider Component Styles */ 
+.rows__games {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.title__slide_arrow {
+  position: relative;
+  z-index: 5;
+}
+
+.arrow__slide {
+  position: relative;
+  z-index: 15;
+}
+
+.custom-swiper-button-prev,
+.custom-swiper-button-next {
+  z-index: 25;
+  position: relative;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  will-change: transform, background-color;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto !important;
+  border: none;
+  outline: none;
+}
+
+.custom-swiper-button-prev:focus,
+.custom-swiper-button-next:focus {
+  outline: 2px solid #794dfd;
+  outline-offset: 2px;
+}
+
+.custom-swiper-button-prev:hover,
+.custom-swiper-button-next:hover {
+  transform: scale(1.1);
+  background-color: #3d3d4a !important;
+}
+
+.custom-swiper-button-prev:active,
+.custom-swiper-button-next:active {
+  transform: scale(0.9);
+  transition-duration: 0.1s;
+  background-color: #4d4d5a !important;
+}
+
+.swiper {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+.swiper-wrapper {
+  display: flex;
+  align-items: flex-start;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: transform;
+}
+
+.swiper-slide {
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1.0), 
+              filter 0.6s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.swiper-slide:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.swiper-slide-duplicate {
+  opacity: 1;
+}
+
+.swiper-slide-prev,
+.swiper-slide-next,
+.swiper-slide-active {
+  transition-duration: 0.8s;
+}
+
+.swiper-slide-transition {
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Специальные стили для десктопа */
+@media (min-width: 1024px) {
+  .swiper-wrapper {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  .swiper-slide {
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .swiper-slide img {
+    transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1.0), 
+                filter 0.8s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  }
+  
+  .swiper-slide-prev,
+  .swiper-slide-next,
+  .swiper-slide-active {
+    transition-duration: 0.8s;
+  }
+}
+
+@media (max-width: 767px) {
+  .arrow__slide {
+    display: none;
+  }
+  
+  .swiper-slide {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .swiper-slide img {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swiper-slide,
+  .swiper-slide img,
+  .custom-swiper-button-prev,
+  .custom-swiper-button-next,
+  .swiper-wrapper {
+    transition-duration: 0.1s !important;
+  }
+}
+
+.game-card {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.game-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(121, 77, 253, 0.1);
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
+}
+
+.game-card:hover::after {
+  opacity: 1;
+}
+
+.swiper-button-disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+}
+
+.swiper-loop-mode .swiper-button-disabled {
+  opacity: 1 !important;
+  cursor: pointer !important;
+}
+
+/* Принудительная отмена отложенной загрузки для плавности */
+.swiper-slide img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translate3d(0, 0, 0);
+} 
