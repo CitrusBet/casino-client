@@ -2,7 +2,7 @@
 
 import { Button } from '@heroui/react'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import AuthModal from './AuthModal'
 
 export default function Header() {
@@ -17,12 +17,15 @@ export default function Header() {
     { code: 'RU', name: 'Русский' },
   ]
 
+  const inputRef = useRef<HTMLInputElement>(null)
+
   const handleLanguageSelect = (langCode: string) => {
     setLanguage(langCode)
     setIsLanguageMenuOpen(false)
   }
 
   const handleSearch = () => {
+    if (inputRef.current) inputRef.current.focus();
     if (searchQuery.trim()) {
       console.log(`Searching for: ${searchQuery}`)
       if (navigator.vibrate) {
@@ -76,6 +79,7 @@ export default function Header() {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out"></div>
             </button>
             <input
+              ref={inputRef}
               type="text"
               placeholder="Search for casinos, games and more..."
               value={searchQuery}

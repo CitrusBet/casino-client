@@ -12,11 +12,11 @@ export default function MobileGameTabs() {
   const [activeTab, setActiveTab] = useState('New')
 
   const tabs: Tab[] = [
-    { id: 'all-games', name: 'All games', isActive: false },
+    { id: 'all-games', name: 'All games', isActive: true },
     { id: 'slots', name: 'Slots', isActive: false },
     { id: 'top-rated', name: 'Top rated', isActive: false },
     { id: 'live', name: 'Live', isActive: false },
-    { id: 'new', name: 'New', isActive: true },
+    { id: 'new', name: 'New', isActive: false },
     { id: 'recommendations', name: 'Recommendations', isActive: false },
   ]
 
