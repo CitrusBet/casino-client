@@ -86,9 +86,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('token', newToken);
       }
       await fetchProfile(newToken);
-    } catch (err: any) {
-      setError(err.message || 'Login failed');
-      throw err;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Login failed');
+        throw err;
+      } else {
+        setError('Login failed');
+        throw new Error('Login failed');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -115,9 +120,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('token', newToken);
       }
       await fetchProfile(newToken);
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
-      throw err;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Registration failed');
+        throw err;
+      } else {
+        setError('Registration failed');
+        throw new Error('Registration failed');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -132,9 +142,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
       }
-    } catch (err: any) {
-      setError(err.message || 'Logout failed');
-      throw err;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Logout failed');
+        throw err;
+      } else {
+        setError('Logout failed');
+        throw new Error('Logout failed');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -157,9 +172,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(data.message || 'Profile update failed');
       }
       setProfile(data);
-    } catch (err: any) {
-      setError(err.message || 'Profile update failed');
-      throw err;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Profile update failed');
+        throw err;
+      } else {
+        setError('Profile update failed');
+        throw new Error('Profile update failed');
+      }
     } finally {
       setIsLoading(false);
     }
