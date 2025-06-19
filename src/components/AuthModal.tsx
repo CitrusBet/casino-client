@@ -30,7 +30,7 @@ export default function AuthModal({ isOpen, onOpenChange, mode, switchMode }: Au
   const { login, register, isLoading, error } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -160,15 +160,20 @@ export default function AuthModal({ isOpen, onOpenChange, mode, switchMode }: Au
                     <motion.div
                       variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
                     >
-                      <label className="block text-sm font-semibold text-[#B09DFF] mb-1">Username</label>
-                      <input
-                        className="w-full px-4 py-2 rounded-xl bg-[#23233A] border border-[#35374F] text-white focus:outline-none focus:ring-2 focus:ring-[#794DFD] placeholder:text-[#7E7E7E] font-medium shadow-sm transition-all duration-200 hover:border-[#794DFD] focus:border-[#794DFD]"
-                        type="text"
-                        placeholder="Enter your username"
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                        required
-                      />
+                      <label className="block text-sm font-semibold text-[#B09DFF] mb-1">Confirm Password</label>
+                      <div className="relative">
+                        <input
+                          className="w-full px-4 py-2 rounded-xl bg-[#23233A] border border-[#35374F] text-white focus:outline-none focus:ring-2 focus:ring-[#794DFD] placeholder:text-[#7E7E7E] font-medium pr-10 shadow-sm transition-all duration-200 hover:border-[#794DFD] focus:border-[#794DFD]"
+                          type="password"
+                          placeholder="Confirm your password"
+                          value={confirmPassword}
+                          onChange={e => setConfirmPassword(e.target.value)}
+                          required
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#B09DFF]">
+                          <LockIcon />
+                        </span>
+                      </div>
                     </motion.div>
                   )}
                   <motion.div
