@@ -7,11 +7,11 @@ interface UserProfile {
   id?: string;
   username?: string;
   email?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface Credentials {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface UserContextType {
@@ -54,9 +54,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(data.message || 'Failed to fetch profile');
       }
       setProfile(data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch profile');
-      throw err;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Failed to fetch profile');
+        throw err;
+      } else {
+        setError('Failed to fetch profile');
+        throw new Error('Failed to fetch profile');
+      }
     }
   }, []);
 
