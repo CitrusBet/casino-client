@@ -51,21 +51,21 @@ export default function HeroSection() {
   }
 
   return (
-    <div className="relative z-10 py-4 md:py-8 mb-4">
-      <div className="text-[11px] md:text-sm uppercase text-[#7E7E7E] mb-3 md:mb-4 font-medium tracking-wide">
+    <div className="relative z-10 py-8 mb-4">
+      <div className="text-sm uppercase text-[#7E7E7E] mb-4 font-medium tracking-wide">
         Lorem Ipsum is simply dummy text
       </div>
       
-      <h1 className="text-white text-base md:text-[32px] font-bold leading-tight mb-4 md:mb-6 max-w-[336px] md:max-w-[671px]">
+      <h1 className="text-white text-[32px] font-bold leading-tight mb-6 max-w-[671px]">
         Lorem Ipsum is simply <br />
         dummy text of the printing and typesetting
       </h1>
       
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 mb-6 md:mb-8">
+      <div className="flex flex-row items-center gap-6 mb-8">
         <Button
           color="primary"
           size="lg"
-          className={`bg-[#794DFD] text-white px-[18px] md:px-6 py-3 h-[37px] md:h-12 rounded-[20px] font-medium text-xs md:text-sm transition-all duration-300 ease-out relative overflow-hidden group ${
+          className={`bg-[#794DFD] text-white px-6 py-3 h-12 rounded-[20px] font-medium text-sm transition-all duration-300 ease-out relative overflow-hidden group ${
             clickedButton === 'openRandom' 
               ? 'scale-95 bg-[#5A2FE8]' 
               : 'hover:bg-[#6B42F0] hover:scale-105 hover:shadow-2xl hover:shadow-[#794DFD]/60'
@@ -77,7 +77,7 @@ export default function HeroSection() {
         
         <Button
           variant="light"
-          className={`text-[#FFFBFF] font-medium text-xs md:text-sm px-4 py-2 rounded-lg transition-all duration-300 ease-out relative overflow-hidden group ${
+          className={`text-[#FFFBFF] font-medium text-sm px-4 py-2 rounded-lg transition-all duration-300 ease-out relative overflow-hidden group ${
             clickedButton === 'moreDetails'
               ? 'scale-95 bg-white/20 text-white'
               : 'hover:text-white hover:bg-white/10 hover:scale-105 hover:shadow-lg'
@@ -88,11 +88,11 @@ export default function HeroSection() {
         </Button>
       </div>
       
-      <div className="flex flex-col md:flex-row md:items-center">
+      <div className="flex flex-row items-center">
         <Button
           color="primary"
           size="sm"
-          className={`bg-[#794DFD] text-[#FDFDFD] px-2 md:px-4 h-[29px] md:h-9 rounded-[20px] font-normal text-xs transition-all duration-300 ease-out relative overflow-hidden group mb-4 md:mb-0 w-[71px] md:w-auto ${
+          className={`bg-[#794DFD] text-[#FDFDFD] px-4 h-9 rounded-[20px] font-normal text-xs transition-all duration-300 ease-out relative overflow-hidden group ${
             clickedButton === 'allGames'
               ? 'scale-95 bg-[#5A2FE8]'
               : 'hover:bg-[#6B42F0] hover:scale-105 hover:shadow-lg hover:shadow-[#794DFD]/50'
@@ -102,12 +102,12 @@ export default function HeroSection() {
           <span className="relative z-10">All games</span>
         </Button>
         
-        <div className="flex flex-wrap items-center gap-2 md:gap-4 md:ml-6">
+        <div className="flex flex-wrap items-center gap-4 ml-6">
           {tabs.map((tab) => (
             <button
               key={tab.name}
               onClick={() => handleTabClick(tab.name)}
-              className={`text-xs transition-all duration-300 ease-out px-2 md:px-3 py-1 md:py-2 rounded-lg relative overflow-hidden group ${
+              className={`text-xs transition-all duration-300 ease-out px-3 py-2 rounded-lg relative overflow-hidden group ${
                 activeTab === tab.name
                   ? 'text-white font-normal bg-white/15 shadow-lg scale-105' 
                   : 'text-[#FFFBFF] hover:text-white hover:bg-white/8 hover:scale-110'

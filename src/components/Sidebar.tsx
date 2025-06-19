@@ -43,12 +43,13 @@ export default function Sidebar() {
 
   return (
     <div 
-      className={`hidden md:block fixed left-0 top-0 h-screen bg-[#131420] flex flex-col items-start py-5 transition-all duration-300 ease-in-out z-50 overflow-y-auto scrollbar-hide ${
+      className={`hidden md:block fixed left-0 top-0 h-screen backdrop-blur-md flex flex-col items-start py-5 transition-all duration-300 ease-in-out z-50 overflow-y-auto scrollbar-hide ${
         isExpanded ? 'w-[200px]' : 'w-[74px]'
       }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{
+        backgroundColor: 'rgba(19, 20, 32, 0.85)',
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
       }}
@@ -70,11 +71,11 @@ export default function Sidebar() {
             <div
               key={item.id}
               onClick={() => handleItemClick(item.id)}
-                             className={`group relative flex items-center h-[46px] rounded-lg cursor-pointer transition-all duration-200 ${
-                 isExpanded && activeItem === item.id 
-                   ? 'bg-[#27272F] shadow-lg' 
-                   : 'hover:bg-[#27272F] hover:scale-105'
-               }`}
+              className={`group relative flex items-center h-[46px] rounded-lg cursor-pointer transition-all duration-200 ${
+                isExpanded && activeItem === item.id 
+                  ? 'bg-[#27272F] shadow-lg' 
+                  : 'hover:bg-[#27272F] hover:scale-105'
+              }`}
             >
               <div className="flex items-center justify-center w-[46px] h-[46px] flex-shrink-0">
                 <Image 
@@ -82,12 +83,12 @@ export default function Sidebar() {
                   alt={item.label} 
                   width={20} 
                   height={20}
-                                     className="transition-all duration-200 brightness-75 group-hover:brightness-100"
+                  className="transition-all duration-200 brightness-75 group-hover:brightness-100"
                 />
               </div>
               <div className={`ml-3 text-white font-medium text-sm transition-all duration-300 whitespace-nowrap ${
                 isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
-                             } text-[#7E7E7E] group-hover:text-white`}>
+              } text-[#7E7E7E] group-hover:text-white`}>
                 {item.label}
               </div>
             </div>
@@ -97,24 +98,24 @@ export default function Sidebar() {
         <div className="flex flex-col gap-[20px] mt-8">
           <div
             onClick={() => handleItemClick('favorites')}
-                         className={`group relative flex items-center h-[46px] rounded-lg cursor-pointer transition-all duration-200 ${
-               isExpanded && activeItem === 'favorites' 
-                 ? 'bg-[#27272F] shadow-lg' 
-                 : 'hover:bg-[#27272F] hover:scale-105'
-             }`}
+            className={`group relative flex items-center h-[46px] rounded-lg cursor-pointer transition-all duration-200 ${
+              isExpanded && activeItem === 'favorites' 
+                ? 'bg-[#27272F] shadow-lg' 
+                : 'hover:bg-[#27272F] hover:scale-105'
+            }`}
           >
             <div className="flex items-center justify-center w-[46px] h-[46px] flex-shrink-0">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path 
                   d="M10 0L12.24 6.18L20 8L12.24 9.82L10 16L7.76 9.82L0 8L7.76 6.18L10 0Z" 
-                                     fill="#794DFD"
-                   className="transition-all duration-200 group-hover:fill-white"
+                  fill="#794DFD"
+                  className="transition-all duration-200 group-hover:fill-white"
                 />
               </svg>
             </div>
             <div className={`ml-3 text-white font-medium text-sm transition-all duration-300 whitespace-nowrap ${
               isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
-                         } text-[#7E7E7E] group-hover:text-white`}>
+            } text-[#7E7E7E] group-hover:text-white`}>
               Favorites
             </div>
           </div>

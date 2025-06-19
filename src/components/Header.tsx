@@ -23,7 +23,6 @@ export default function Header() {
   const handleSearch = () => {
     if (searchQuery.trim()) {
       console.log(`Searching for: ${searchQuery}`)
-      // Добавить логику поиска
       if (navigator.vibrate) {
         navigator.vibrate(30)
       }
@@ -56,7 +55,7 @@ export default function Header() {
   }, [isLanguageMenuOpen])
 
   return (
-    <div className="absolute top-0 left-0 right-0 h-20 backdrop-blur-sm z-30 md:block hidden" style={{backgroundColor: 'rgba(19, 20, 32, 0.5)'}}>
+    <div className="fixed top-0 left-0 md:left-[74px] lg:left-[74px] right-0 h-20 backdrop-blur-md z-30 md:block hidden" style={{backgroundColor: 'rgba(19, 20, 32, 0.85)'}}>
       <div className="flex items-center justify-between h-full px-5">
         <div className="flex-1 max-w-[778px] ml-5">
           <form onSubmit={handleSearchSubmit} className="relative w-full h-12 flex items-center">
@@ -108,7 +107,7 @@ export default function Header() {
               />
             </Button>
             
-            <div className={`absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-[#131420] border border-[#794DFD]/30 rounded-[16px] py-2 min-w-[120px] shadow-lg z-50 transition-all duration-300 ease-out ${
+            <div className={`absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-[#131420]/95 backdrop-blur-md border border-[#794DFD]/30 rounded-[16px] py-2 min-w-[120px] shadow-lg z-50 transition-all duration-300 ease-out ${
               isLanguageMenuOpen 
                 ? 'opacity-100 translate-y-0 scale-100' 
                 : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'

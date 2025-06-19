@@ -35,7 +35,7 @@ export default function MobileNavigation({ onMenuClick }: MobileNavigationProps)
   }
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 h-[84px] backdrop-blur-[40px] z-30" style={{backgroundColor: 'rgba(19, 20, 32, 0.95)'}}>
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 h-[84px] backdrop-blur-[40px] z-30" style={{backgroundColor: 'rgba(19, 20, 32, 0.95)'}}>
       <div className="w-full h-full bg-gradient-to-t from-[#131420] to-transparent rounded-t-[20px]">
         <div className="flex items-center justify-center h-full px-[22px]">
           <div className="flex items-center justify-between w-full max-w-[348px]">

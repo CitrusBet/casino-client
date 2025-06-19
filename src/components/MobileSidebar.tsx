@@ -38,11 +38,12 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
   return (
     <div className="md:hidden fixed inset-0 z-50">
       <div 
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 backdrop-blur-sm"
+        style={{ backgroundColor: 'rgba(19, 20, 32, 0.85)' }}
         onClick={onClose}
       />
       
-      <div className="absolute top-0 left-0 right-0 bottom-0 bg-[#131420] bg-opacity-85 backdrop-blur-sm">
+      <div className="absolute top-0 left-0 right-0 bottom-0 backdrop-blur-sm">
         <div className="p-[19px] pt-[86px]">
           <div className="flex flex-col gap-6">
             {menuItems.map((item) => (
