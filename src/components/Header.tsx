@@ -9,7 +9,6 @@ export default function Header() {
   const [language, setLanguage] = useState('EN')
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [isSearchFocused, setIsSearchFocused] = useState(false)
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login')
 
@@ -81,8 +80,6 @@ export default function Header() {
               placeholder="Search for casinos, games and more..."
               value={searchQuery}
               onChange={handleSearchInputChange}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setIsSearchFocused(false)}
               className="flex-1 border-1 px-4 h-12 rounded-[20px] border-transparent bg-transparent focus:border-[#794DFD] focus:bg-[#794DFD]/10 text-white placeholder:text-[#7E7E7E] text-sm font-medium outline-none ml-2 transition-all duration-300 ease-out hover:text-[#FFFBFF]"
             />
           </form>

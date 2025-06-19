@@ -36,13 +36,6 @@ export default function HeroSection() {
     }
   }
 
-  const handleAllGames = () => {
-    console.log('Opening all games...')
-    if (navigator.vibrate) {
-      navigator.vibrate(40)
-    }
-  }
-
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName)
     console.log(`Switched to ${tabName} tab`)
