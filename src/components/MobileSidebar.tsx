@@ -50,7 +50,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
               <div
                 key={item.id}
                 onClick={() => handleItemClick(item.id)}
-                className={`flex items-center gap-4 py-3 px-4 rounded-lg cursor-pointer transition-all duration-200 ${
+                className={`flex items-center gap-4 py-3 px-4 rounded-[20px] cursor-pointer transition-all duration-200 ${
                   activeItem === item.id
                     ? 'bg-[#794DFD]/20 scale-105'
                     : 'hover:bg-[#27272F] hover:scale-105'

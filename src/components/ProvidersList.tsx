@@ -15,7 +15,7 @@ export default function ProvidersList() {
 
   return (
     <div className="bg-content1 rounded-[20px] w-[355px] h-[394px] shadow-lg">
-      <div className="pt-[33px] px-[20px] pb-[32px]">
+      <div className="px-[20px] pb-[32px]">
         <h3 className="text-white text-[18px] font-bold leading-[1.21]">Providers</h3>
       </div>
       

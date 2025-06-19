@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <div 
-      className="min-h-screen relative"
+      className="min-h-screen relative overflow-hidden"
       style={{
         backgroundColor: '#1B1C2D',
         backgroundImage: 'url(/images/casino-background.png)',
@@ -29,17 +29,7 @@ export default function Home() {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      {/* Gradient overlays for better readability */}
-      <div 
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          background: `
-            linear-gradient(180deg, rgba(27, 28, 45, 0.2) 0%, rgba(27, 28, 45, 0) 30%),
-            linear-gradient(0deg, rgba(27, 28, 45, 0.4) 0%, rgba(27, 28, 45, 0) 50%)
-          `,
-          zIndex: 0
-        }}
-      />
+      <div className="absolute inset-0 z-0 backdrop-blur-xs bg-black/60 pointer-events-none" />
       
       <div className="relative z-10">
         <div className="hidden lg:block">

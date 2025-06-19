@@ -3,12 +3,15 @@
 import { Button } from '@heroui/react'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import AuthModal from './AuthModal'
 
 export default function Header() {
   const [language, setLanguage] = useState('EN')
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login')
 
   const languages = [
     { code: 'EN', name: 'English' },
@@ -80,11 +83,7 @@ export default function Header() {
               onChange={handleSearchInputChange}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setIsSearchFocused(false)}
-              className={`flex-1 bg-transparent text-white placeholder:text-[#7E7E7E] text-sm font-medium outline-none ml-5 transition-all duration-300 ease-out ${
-                isSearchFocused 
-                  ? 'transform scale-105 text-[#FFFBFF]' 
-                  : 'hover:text-[#FFFBFF]'
-              }`}
+              className="flex-1 border-1 px-4 h-12 rounded-[20px] border-transparent bg-transparent focus:border-[#794DFD] focus:bg-[#794DFD]/10 text-white placeholder:text-[#7E7E7E] text-sm font-medium outline-none ml-2 transition-all duration-300 ease-out hover:text-[#FFFBFF]"
             />
           </form>
         </div>
@@ -131,6 +130,7 @@ export default function Header() {
           <Button
             size="md"
             className="bg-[#794DFD] text-white h-12 px-6 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-sm"
+            onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
           >
             Login 🎉
           </Button>
@@ -138,11 +138,18 @@ export default function Header() {
           <Button
             size="md"
             className="bg-[#794DFD] text-white h-12 px-6 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-sm"
+            onClick={() => { setAuthMode('register'); setAuthModalOpen(true); }}
           >
             Sign up 🚀
           </Button>
         </div>
       </div>
+      <AuthModal
+        isOpen={authModalOpen}
+        onOpenChange={setAuthModalOpen}
+        mode={authMode}
+        switchMode={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
+      />
     </div>
   )
 } 

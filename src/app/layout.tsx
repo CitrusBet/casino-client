@@ -17,12 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="casino-dark">
-      <body className={inter.className}>
-        <Providers>
+      <body suppressHydrationWarning className={inter.className}>
           <main className="casino-dark text-foreground bg-background min-h-screen">
+          <Providers>
             {children}
+          </Providers>
           </main>
-        </Providers>
       </body>
     </html>
   );

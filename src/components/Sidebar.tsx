@@ -55,23 +55,23 @@ export default function Sidebar() {
       }}
     >
       <div className="w-full flex items-center px-[17px] mb-16">
-        <div className="w-10 h-10 bg-[#794DFD] rounded-lg flex items-center justify-center flex-shrink-0">
-          <span className="text-white font-medium text-2xl">L</span>
+        <div className="w-10 h-10 rounded-[20px] flex items-center justify-center flex-shrink-0">
+          <img src="./images/logo.png" className="text-white font-medium text-2xl"/>
         </div>
         <div className={`ml-4 text-white font-semibold text-lg transition-all duration-300 ${
           isExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
         }`}>
-          Casino
+          CitrusBet
         </div>
       </div>
       
       <nav className="flex flex-col flex-1 w-full px-[17px]">
         <div className="flex flex-col gap-[20px] flex-1">
-          {mainMenuItems.map((item) => (
+          {mainMenuItems.map((item, idx) => (
             <div
               key={item.id}
               onClick={() => handleItemClick(item.id)}
-              className={`group relative flex items-center h-[46px] rounded-lg cursor-pointer transition-all duration-200 ${
+              className={`group relative flex items-center h-[46px] rounded-[20px] cursor-pointer transition-all duration-200 ${
                 isExpanded && activeItem === item.id 
                   ? 'bg-[#27272F] shadow-lg' 
                   : 'hover:bg-[#27272F] hover:scale-105'
@@ -83,7 +83,7 @@ export default function Sidebar() {
                   alt={item.label} 
                   width={20} 
                   height={20}
-                  className="transition-all duration-200 brightness-75 group-hover:brightness-100"
+                  className={`transition-all duration-200 ${idx === 0 ? '' : 'invert group-hover:brightness-100'}`}
                 />
               </div>
               <div className={`ml-3 text-white font-medium text-sm transition-all duration-300 whitespace-nowrap ${
@@ -94,11 +94,10 @@ export default function Sidebar() {
             </div>
           ))}
         </div>
-
         <div className="flex flex-col gap-[20px] mt-8">
           <div
             onClick={() => handleItemClick('favorites')}
-            className={`group relative flex items-center h-[46px] rounded-lg cursor-pointer transition-all duration-200 ${
+            className={`group relative flex items-center h-[46px] rounded-[20px] cursor-pointer transition-all duration-200 ${
               isExpanded && activeItem === 'favorites' 
                 ? 'bg-[#27272F] shadow-lg' 
                 : 'hover:bg-[#27272F] hover:scale-105'
@@ -121,11 +120,10 @@ export default function Sidebar() {
           </div>
         </div>
       </nav>
-      
       <div className="w-full px-[17px] mt-8">
         <div
           onClick={() => handleItemClick('logout')}
-          className="group relative flex items-center h-[46px] rounded-lg cursor-pointer transition-all duration-200 hover:bg-red-600/20 hover:scale-105"
+          className="group relative flex items-center h-[46px] rounded-[20px] cursor-pointer transition-all duration-200 hover:bg-red-600/20 hover:scale-105"
         >
           <div className="flex items-center justify-center w-[46px] h-[46px] flex-shrink-0">
             <Image 
@@ -133,7 +131,7 @@ export default function Sidebar() {
               alt="Logout" 
               width={16} 
               height={18}
-              className="transition-all duration-200 brightness-75 group-hover:brightness-100 group-hover:hue-rotate-180"
+              className="transition-all invert duration-200 brightness-75 group-hover:brightness-100 group-hover:hue-rotate-180"
             />
           </div>
           <div className={`ml-3 text-red-400 font-medium text-sm transition-all duration-300 whitespace-nowrap group-hover:text-red-300 ${
@@ -145,4 +143,4 @@ export default function Sidebar() {
       </div>
     </div>
   )
-} 
+}

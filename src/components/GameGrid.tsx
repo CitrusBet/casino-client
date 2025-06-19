@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 export default function GameGrid() {
   return (
-    <div className="pt-4 space-y-6 md:space-y-8">
+    <div className="space-y-6 md:space-y-8">
       <GameSection title="Top game" imagePrefix="game" />
       <GameSection title="Table Games" imagePrefix="table-game" />
       <GameSection title="Slots" imagePrefix="slot-game" />
@@ -49,9 +49,9 @@ function GameSection({ title, imagePrefix }: { title: string, imagePrefix: strin
   }
 
   return (
-    <div className="bg-black/20 rounded-[20px] p-3 md:p-4 shadow-lg overflow-hidden">
+    <div className="ounded-[20px] p-3 md:p-4 overflow-hidden">
       <div className="flex items-center justify-between mb-3 md:mb-4">
-        <h3 className="text-white text-sm font-normal">{title}</h3>
+        <h3 className="text-white text-lg font-bold">{title}</h3>
         <div className="flex items-center gap-2">
           <button 
             onClick={prevSlide}
@@ -87,7 +87,7 @@ function GameSection({ title, imagePrefix }: { title: string, imagePrefix: strin
                 return (
                   <div
                     key={gameIndex}
-                    className="flex-1 aspect-[83/136] md:aspect-[128/211] rounded-lg overflow-hidden group cursor-pointer"
+                    className="flex-1 aspect-[83/136] md:aspect-[128/211] rounded-[20px] overflow-hidden group cursor-pointer"
                   >
                     <Image
                       src={`/images/${imagePrefix}-${imageIndex}.png`}

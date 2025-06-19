@@ -28,15 +28,15 @@ export default function MobileHeroSection() {
           className="bg-[#794DFD] text-white px-[18px] h-[37px] rounded-[20px] font-medium text-xs"
           onPress={handleOpenRandom}
         >
-          Open random
+          Open random 🎰
         </Button>
         
         <Button
           variant="light"
-          className="text-[#FFFBFF] font-medium text-xs px-4 py-2 rounded-lg"
+          className="text-[#FFFBFF] font-medium text-xs px-4 py-2 rounded-[20px]"
           onPress={handleMoreDetails}
         >
-          More details
+          More details 🃏
         </Button>
       </div>
     </div>
