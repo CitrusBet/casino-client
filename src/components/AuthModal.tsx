@@ -33,7 +33,6 @@ export default function AuthModal({ isOpen, onOpenChange, mode, switchMode }: Au
   const [username, setUsername] = useState("");
   const [remember, setRemember] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-  const [confirmPassword, setConfirmPassword] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
 
   const casinoGradient = 'bg-gradient-to-br from-[#794DFD] via-[#B09DFF] to-[#1B1C2D]';
