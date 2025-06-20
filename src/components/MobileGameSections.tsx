@@ -9,7 +9,7 @@ interface GameSectionProps {
 
 export default function MobileGameSections() {
   return (
-    <div className="lg:hidden space-y-4 px-[22px] pb-20">
+    <div className="lg:hidden space-y-4 px-4 sm:px-[22px] pb-[120px]">
       <MobileGameSection title="Top game" imagePrefix="game" />
       <MobileGameSection title="Table Games" imagePrefix="table-game" />
       <MobileGameSection title="Slots" imagePrefix="slot-game" />
@@ -24,12 +24,12 @@ function MobileGameSection({ title, imagePrefix }: GameSectionProps) {
   }))
 
   return (
-    <div className="bg-black/15 rounded-[10px] p-4 shadow-lg">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-black/15 rounded-[10px] p-3 sm:p-4 shadow-lg">
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
         <h3 className="text-white text-sm font-normal">{title}</h3>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
-            <div className="w-[25px] h-[25px] bg-[#2B2C3F] rounded-full flex items-center justify-center">
+            <div className="w-[25px] h-[25px] bg-[#2B2C3F] rounded-full flex items-center justify-center cursor-pointer" style={{touchAction: 'manipulation'}}>
               <Image 
                 src="/images/arrow-down.svg" 
                 alt="Arrow" 
@@ -38,7 +38,7 @@ function MobileGameSection({ title, imagePrefix }: GameSectionProps) {
                 className="rotate-90 stroke-[#B09DFF]"
               />
             </div>
-            <div className="w-[25px] h-[25px] bg-[#2B2C3F] rounded-full flex items-center justify-center">
+            <div className="w-[25px] h-[25px] bg-[#2B2C3F] rounded-full flex items-center justify-center cursor-pointer" style={{touchAction: 'manipulation'}}>
               <Image 
                 src="/images/arrow-down.svg" 
                 alt="Arrow" 
@@ -48,7 +48,7 @@ function MobileGameSection({ title, imagePrefix }: GameSectionProps) {
               />
             </div>
           </div>
-          <span className="text-[#B09DFF] text-xs font-normal">
+          <span className="text-[#B09DFF] text-xs font-normal hidden sm:block">
             All games
           </span>
         </div>
@@ -58,7 +58,8 @@ function MobileGameSection({ title, imagePrefix }: GameSectionProps) {
         {games.map((game) => (
           <div
             key={game.id}
-            className="flex-shrink-0 w-[83px] h-[136px] rounded-[10px] overflow-hidden"
+            className="flex-shrink-0 w-[75px] sm:w-[83px] h-[120px] sm:h-[136px] rounded-[10px] overflow-hidden cursor-pointer"
+            style={{touchAction: 'manipulation'}}
           >
             <Image
               src={game.image}

@@ -35,17 +35,18 @@ export default function MobileNavigation({ onMenuClick }: MobileNavigationProps)
   }
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 h-[84px] backdrop-blur-[40px] z-30" style={{backgroundColor: 'rgba(19, 20, 32, 0.95)'}}>
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 h-[84px] backdrop-blur-[40px] z-40 border-t border-white/5" style={{backgroundColor: 'rgba(19, 20, 32, 0.95)'}}>
       <div className="w-full h-full bg-gradient-to-t from-[#131420] to-transparent rounded-t-[20px]">
-        <div className="flex items-center justify-center h-full px-[22px]">
-          <div className="flex items-center justify-between w-full max-w-[348px]">
+        <div className="flex items-center justify-center h-full px-4">
+          <div className="flex items-center justify-between w-full max-w-[348px] mx-auto">
             {navigationItems.map((item) => (
               <div
                 key={item.id}
                 onClick={() => handleItemClick(item.id)}
-                className={`flex flex-col items-center gap-[6px] cursor-pointer transition-all duration-200 ${
+                className={`flex flex-col items-center gap-[6px] cursor-pointer transition-all duration-200 min-w-[50px] ${
                   activeItem === item.id ? 'scale-105' : 'hover:scale-105'
                 }`}
+                style={{touchAction: 'manipulation'}}
               >
                 <div className="w-6 h-6 flex items-center justify-center">
                   <Image 
@@ -63,7 +64,7 @@ export default function MobileNavigation({ onMenuClick }: MobileNavigationProps)
                     }}
                   />
                 </div>
-                <span className={`text-[12px] font-medium leading-[15px] transition-colors duration-200 ${
+                <span className={`text-[12px] font-medium leading-[15px] transition-colors duration-200 text-center ${
                   activeItem === item.id
                     ? 'text-[#794DFD]'
                     : 'text-white hover:text-[#794DFD]'

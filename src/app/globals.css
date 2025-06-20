@@ -26,6 +26,17 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a, [role="button"], [tabindex] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .casino-background {
@@ -85,4 +96,32 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+@media (max-width: 1024px) {
+  .casino-background {
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 640px) {
+  .casino-background {
+    background-position: center top;
+    background-size: cover;
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 480px) {
+  .casino-background {
+    background-position: center top;
+    background-size: 120% auto;
+    background-attachment: scroll;
+  }
+}
+
+@media (max-height: 667px) {
+  .casino-background {
+    background-attachment: scroll;
+  }
 }

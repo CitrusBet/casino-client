@@ -55,6 +55,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                     ? 'bg-[#794DFD]/20 scale-105'
                     : 'hover:bg-[#27272F] hover:scale-105'
                 }`}
+                style={{touchAction: 'manipulation'}}
               >
                 <div className="w-5 h-5 flex items-center justify-center">
                   <Image 
