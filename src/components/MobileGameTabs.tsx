@@ -29,19 +29,33 @@ export default function MobileGameTabs() {
 
   return (
     <div className="lg:hidden px-4 sm:px-[22px] py-4">
-      <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto scrollbar-hide">
+      <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide py-1" 
+           style={{ WebkitOverflowScrolling: 'touch' }}>
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => handleTabClick(tab.id, tab.name)}
-            className={`flex items-center justify-center px-2 py-1 rounded-[20px] whitespace-nowrap text-xs font-normal transition-all duration-300 ease-out h-[29px] cursor-pointer ${
+            className={`flex items-center justify-center px-2 py-1 rounded-[20px] whitespace-nowrap text-xs font-normal transition-all duration-300 ease-out h-[29px] cursor-pointer relative overflow-hidden group ${
               activeTab === tab.name
-                ? 'text-white bg-gradient-to-r from-[#794DFD] to-[#6B42F0] shadow-lg scale-105'
-                : 'text-[#FFFBFF] hover:text-white hover:bg-white/8 hover:scale-110 active:scale-95'
+                ? 'text-white bg-gradient-to-r from-[#794DFD] to-[#6B42F0] shadow-lg'
+                : 'text-[#FFFBFF] hover:text-white hover:bg-white/8 hover:scale-105 active:scale-95'
             } ${tab.name === 'All games' ? 'min-w-[65px]' : ''}`}
-            style={{touchAction: 'manipulation', pointerEvents: 'auto'}}
+            style={{
+              touchAction: 'manipulation', 
+              pointerEvents: 'auto',
+              WebkitUserSelect: 'none',
+              userSelect: 'none',
+              WebkitTapHighlightColor: 'transparent',
+              minHeight: '29px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
           >
-            {tab.name}
+            <span className="relative z-10 whitespace-nowrap">{tab.name}</span>
+            {activeTab === tab.name && (
+              <div className="absolute inset-0 bg-gradient-to-r from-[#794DFD] to-[#6B42F0] rounded-[20px] animate-pulse opacity-30 z-0"></div>
+            )}
           </button>
         ))}
       </div>

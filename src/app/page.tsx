@@ -35,11 +35,13 @@ export default function Home() {
       className="min-h-screen relative overflow-hidden"
       style={{
         backgroundColor: '#1B1C2D',
-        backgroundImage: 'url(/images/background-new.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center top',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: isMobile ? 'scroll' : 'fixed'
+        ...(isMobile ? {} : {
+          backgroundImage: 'url(/images/background-new.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
+        })
       }}
     >
       <div className="relative z-10">
@@ -68,7 +70,10 @@ export default function Home() {
           </div>
         </div>
         
-        <MobileNavigation onMenuClick={handleMenuClick} />
+        <MobileNavigation 
+          onMenuClick={handleMenuClick}
+          onMenuClose={() => setIsMobileSidebarOpen(false)}
+        />
       </div>
     </div>
   )

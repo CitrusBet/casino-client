@@ -19,6 +19,9 @@ export default function MobileHeader() {
   const handleLanguageSelect = (langCode: string) => {
     setLanguage(langCode)
     setIsLanguageMenuOpen(false)
+    if (navigator.vibrate) {
+      navigator.vibrate(25)
+    }
   }
 
   useEffect(() => {
@@ -41,17 +44,23 @@ export default function MobileHeader() {
         <div className="flex items-center justify-between h-full px-4 sm:px-[22px]">
           <div className="relative" onClick={(e) => e.stopPropagation()}>
             <div 
-              className="flex items-center gap-1 text-white text-sm font-medium cursor-pointer py-2" 
-              style={{touchAction: 'manipulation'}}
+              className="flex items-center gap-1 text-white text-sm font-medium cursor-pointer py-2 px-1 rounded-lg hover:bg-white/5 active:scale-95 transition-all duration-200" 
+              style={{
+                touchAction: 'manipulation',
+                WebkitUserSelect: 'none',
+                userSelect: 'none',
+                WebkitTapHighlightColor: 'transparent',
+                minHeight: '32px'
+              }}
               onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
             >
-              <span>{language}</span>
+              <span className="pointer-events-none">{language}</span>
               <Image 
                 src="/images/arrow-down.svg" 
                 alt="Arrow Down" 
                 width={6} 
                 height={3}
-                className={`stroke-[#FFFBFF] transition-transform duration-300 ease-in-out ${isLanguageMenuOpen ? 'rotate-180' : ''}`}
+                className={`stroke-[#FFFBFF] transition-transform duration-300 ease-in-out pointer-events-none ${isLanguageMenuOpen ? 'rotate-180' : ''}`}
               />
             </div>
             
@@ -64,12 +73,17 @@ export default function MobileHeader() {
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageSelect(lang.code)}
-                  className={`w-full px-3 py-2 text-left text-sm font-medium transition-colors duration-200 hover:bg-[#794DFD]/20 ${
+                  className={`w-full px-3 py-2 text-left text-sm font-medium transition-all duration-200 hover:bg-[#794DFD]/20 active:scale-95 ${
                     language === lang.code 
                       ? 'text-[#794DFD] bg-[#794DFD]/10' 
                       : 'text-[#FFFBFF] hover:text-[#794DFD]'
                   }`}
-                  style={{touchAction: 'manipulation'}}
+                  style={{
+                    touchAction: 'manipulation',
+                    WebkitUserSelect: 'none',
+                    userSelect: 'none',
+                    WebkitTapHighlightColor: 'transparent'
+                  }}
                 >
                   {lang.name}
                 </button>
@@ -80,20 +94,38 @@ export default function MobileHeader() {
           <div className="flex items-center gap-2 sm:gap-3">
             <Button
               size="sm"
-              className="bg-[#794DFD] text-white h-[30.8px] px-3 sm:px-4 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-[10px]"
-              style={{touchAction: 'manipulation'}}
+              className="bg-[#794DFD] text-white h-[30.8px] pl-7 pr-3 sm:pr-4 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-[10px] transition-all duration-200 hover:scale-105 active:scale-95"
+              style={{
+                touchAction: 'manipulation',
+                WebkitUserSelect: 'none',
+                userSelect: 'none',
+                WebkitTapHighlightColor: 'transparent',
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='8.5' cy='7' r='4'%3E%3C/circle%3E%3Cline x1='20' y1='8' x2='20' y2='14'%3E%3C/line%3E%3Cline x1='23' y1='11' x2='17' y2='11'%3E%3C/line%3E%3C/svg%3E")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: '8px center',
+                backgroundSize: '12px 12px'
+              }}
               onClick={() => { setAuthMode('register'); setAuthModalOpen(true); }}
             >
-              Sign up 🚀
+              Sign up
             </Button>
             
             <Button
               size="sm"
-              className="bg-[#794DFD] text-white h-[30.8px] px-3 sm:px-4 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-[10px]"
-              style={{touchAction: 'manipulation'}}
+              className="bg-[#794DFD] text-white h-[30.8px] pl-7 pr-3 sm:pr-4 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-[10px] transition-all duration-200 hover:scale-105 active:scale-95"
+              style={{
+                touchAction: 'manipulation',
+                WebkitUserSelect: 'none',
+                userSelect: 'none',
+                WebkitTapHighlightColor: 'transparent',
+                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: '8px center',
+                backgroundSize: '12px 12px'
+              }}
               onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
             >
-              Login 🎉
+              Login
             </Button>
           </div>
         </div>

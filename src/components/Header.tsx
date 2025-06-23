@@ -130,18 +130,30 @@ export default function Header() {
           
           <Button
             size="md"
-            className="bg-[#794DFD] text-white h-12 px-6 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-sm"
+            className="bg-[#794DFD] text-white h-12 pl-12 pr-6 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-sm relative"
             onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E")`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: '16px center',
+              backgroundSize: '16px 16px'
+            }}
           >
-            Login 🎉
+            Login
           </Button>
           
           <Button
             size="md"
-            className="bg-[#794DFD] text-white h-12 px-6 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-sm"
+            className="bg-[#794DFD] text-white h-12 pl-12 pr-6 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-sm relative"
             onClick={() => { setAuthMode('register'); setAuthModalOpen(true); }}
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='8.5' cy='7' r='4'%3E%3C/circle%3E%3Cline x1='20' y1='8' x2='20' y2='14'%3E%3C/line%3E%3Cline x1='23' y1='11' x2='17' y2='11'%3E%3C/line%3E%3C/svg%3E")`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: '16px center',
+              backgroundSize: '16px 16px'
+            }}
           >
-            Sign up 🚀
+            Sign up
           </Button>
         </div>
       </div>

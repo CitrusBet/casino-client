@@ -2,6 +2,7 @@
 
 import { Button } from '@heroui/react'
 import { useState, useCallback } from 'react'
+import { LiaDiceSolid } from 'react-icons/lia'
 
 export default function HeroSection() {
   const [activeTab, setActiveTab] = useState('New')
@@ -65,18 +66,25 @@ export default function HeroSection() {
             }`}
           onPress={() => handleButtonClick('openRandom', handleOpenRandom)}
         >
-          <span className="relative z-10">Open random 🎰</span>
+          <LiaDiceSolid className="w-4 h-4 mr-2" />
+          <span className="relative z-10">Open random</span>
         </Button>
 
         <Button
           variant="light"
-          className={`text-white px-6 py-3 h-12 rounded-[20px] font-medium text-sm transition-all duration-300 ease-out relative overflow-hidden group ${clickedButton === 'moreDetails'
+          className={`text-white pl-12 pr-6 py-3 h-12 rounded-[20px] font-medium text-sm transition-all duration-300 ease-out relative overflow-hidden group ${clickedButton === 'moreDetails'
               ? 'scale-95 bg-white/20 text-white'
               : 'hover:text-white hover:bg-white/10 hover:scale-105 hover:shadow-lg'
             }`}
           onPress={() => handleButtonClick('moreDetails', handleMoreDetails)}
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cpath d='M12 16v-4'%3E%3C/path%3E%3Cpath d='M12 8h.01'%3E%3C/path%3E%3C/svg%3E")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: '16px center',
+            backgroundSize: '16px 16px'
+          }}
         >
-          <span className="relative z-10">More details 🃏</span>
+          <span className="relative z-10">More details</span>
         </Button>
       </div>
 
