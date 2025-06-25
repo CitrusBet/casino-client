@@ -13,9 +13,10 @@ interface NavigationItem {
 interface MobileNavigationProps {
   onMenuClick?: () => void
   onMenuClose?: () => void
+  isMenuOpen?: boolean
 }
 
-export default function MobileNavigation({ onMenuClick, onMenuClose }: MobileNavigationProps) {
+export default function MobileNavigation({ onMenuClick, onMenuClose, isMenuOpen = false }: MobileNavigationProps) {
   const [activeItem, setActiveItem] = useState('games')
 
   const navigationItems: NavigationItem[] = [
@@ -28,7 +29,9 @@ export default function MobileNavigation({ onMenuClick, onMenuClose }: MobileNav
 
   const handleItemClick = (itemId: string) => {
     if (itemId === 'menu' && onMenuClick) {
-      setActiveItem('menu')
+      if (!isMenuOpen) {
+        setActiveItem('menu')
+      }
       onMenuClick()
       return
     }
@@ -52,7 +55,7 @@ export default function MobileNavigation({ onMenuClick, onMenuClose }: MobileNav
                 key={item.id}
                 onClick={() => handleItemClick(item.id)}
                 className={`flex flex-col items-center gap-[6px] cursor-pointer transition-all duration-200 min-w-[50px] py-2 px-1 rounded-lg active:scale-95 ${
-                  activeItem === item.id ? 'scale-105' : 'hover:scale-105'
+                  (activeItem === item.id || (item.id === 'menu' && isMenuOpen)) ? 'scale-105' : 'hover:scale-105'
                 }`}
                 style={{
                   touchAction: 'manipulation',
@@ -73,14 +76,14 @@ export default function MobileNavigation({ onMenuClick, onMenuClose }: MobileNav
                     height={24}
                     className="transition-all duration-200 pointer-events-none"
                     style={{
-                      filter: activeItem === item.id 
+                      filter: (activeItem === item.id || (item.id === 'menu' && isMenuOpen))
                         ? 'brightness(0) saturate(100%) invert(37%) sepia(90%) saturate(4692%) hue-rotate(252deg) brightness(95%) contrast(103%)'
                         : 'brightness(0) invert(1)'
                     }}
                   />
                 </div>
                 <span className={`text-[12px] font-medium leading-[15px] transition-colors duration-200 text-center pointer-events-none ${
-                  activeItem === item.id
+                  (activeItem === item.id || (item.id === 'menu' && isMenuOpen))
                     ? 'text-[#794DFD]'
                     : 'text-white'
                 }`}>

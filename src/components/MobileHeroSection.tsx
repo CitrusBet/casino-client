@@ -29,7 +29,7 @@ export default function MobileHeroSection() {
 
   return (
     <div 
-      className="lg:hidden px-4 sm:px-[22px] pt-[75px] sm:pt-[80px] md:pt-[95px] pb-4 sm:pb-6 text-left relative bg-cover bg-center bg-no-repeat"
+      className="lg:hidden px-4 sm:px-[22px] pt-[75px] sm:pt-[80px] md:pt-[95px] text-left relative bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: 'url(/images/background-new.png)'
       }}

@@ -27,7 +27,7 @@ export default function Home() {
   }, [])
 
   const handleMenuClick = () => {
-    setIsMobileSidebarOpen(true)
+    setIsMobileSidebarOpen(prev => !prev)
   }
 
   return (
@@ -73,6 +73,7 @@ export default function Home() {
         <MobileNavigation 
           onMenuClick={handleMenuClick}
           onMenuClose={() => setIsMobileSidebarOpen(false)}
+          isMenuOpen={isMobileSidebarOpen}
         />
       </div>
     </div>
