@@ -86,55 +86,57 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
           backdropFilter: 'blur(20px)',
           borderRadius: '20px 20px 0 0',
           maxHeight: '70vh',
-          paddingBottom: '100px'
+          paddingBottom: '100px',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           <div className="flex justify-center pt-3 pb-4">
             <div className="w-10 h-1 bg-white/30 rounded-full"></div>
           </div>
-          
-          <div className="px-6 pb-6">
-            <div className="flex flex-col gap-3">
-              {menuItems.map((item, index) => (
-                <div
-                  key={item.id}
-                  onClick={() => handleItemClick(item.id)}
-                  className={`flex items-center gap-4 py-4 px-5 rounded-[16px] cursor-pointer transition-all duration-200 transform ${
-                    activeItem === item.id
-                      ? 'bg-[#794DFD]/20 scale-[1.02] shadow-lg shadow-[#794DFD]/20'
-                      : 'hover:bg-white/5 hover:scale-[1.01] active:scale-[0.98]'
-                  }`}
-                  style={{
-                    touchAction: 'manipulation',
-                    animationDelay: `${index * 50}ms`,
-                    animation: !isAnimating ? `slideInUp 0.3s ease-out forwards` : 'none'
-                  }}
-                >
-                  <div className="w-6 h-6 flex items-center justify-center">
-                    <Image 
-                      src={item.icon} 
-                      alt={item.label} 
-                      width={24} 
-                      height={24}
-                      className="transition-all duration-200"
-                      style={{
-                        filter: activeItem === item.id 
-                          ? 'brightness(0) saturate(100%) invert(37%) sepia(90%) saturate(4692%) hue-rotate(252deg) brightness(95%) contrast(103%)'
-                          : 'brightness(0) invert(1) opacity(0.8)'
-                      }}
-                    />
-                  </div>
-                  <span className={`text-base font-medium transition-colors duration-200 ${
-                    activeItem === item.id
-                      ? 'text-[#794DFD]'
-                      : 'text-white/80 hover:text-white'
-                  }`}>
-                    {item.label}
-                  </span>
+        </div>
+        
+        <div className="flex-1 overflow-y-auto px-6 pb-6 scrollable-content">
+          <div className="flex flex-col gap-3">
+            {menuItems.map((item, index) => (
+              <div
+                key={item.id}
+                onClick={() => handleItemClick(item.id)}
+                className={`flex items-center gap-4 py-4 px-5 rounded-[16px] cursor-pointer transition-all duration-200 transform ${
+                  activeItem === item.id
+                    ? 'bg-[#794DFD]/20 scale-[1.02] shadow-lg shadow-[#794DFD]/20'
+                    : 'hover:bg-white/5 hover:scale-[1.01] active:scale-[0.98]'
+                }`}
+                style={{
+                  touchAction: 'manipulation',
+                  animationDelay: `${index * 50}ms`,
+                  animation: !isAnimating ? `slideInUp 0.3s ease-out forwards` : 'none'
+                }}
+              >
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <Image 
+                    src={item.icon} 
+                    alt={item.label} 
+                    width={24} 
+                    height={24}
+                    className="transition-all duration-200"
+                    style={{
+                      filter: activeItem === item.id 
+                        ? 'brightness(0) saturate(100%) invert(37%) sepia(90%) saturate(4692%) hue-rotate(252deg) brightness(95%) contrast(103%)'
+                        : 'brightness(0) invert(1) opacity(0.8)'
+                    }}
+                  />
                 </div>
-              ))}
-            </div>
+                <span className={`text-base font-medium transition-colors duration-200 ${
+                  activeItem === item.id
+                    ? 'text-[#794DFD]'
+                    : 'text-white/80 hover:text-white'
+                }`}>
+                  {item.label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -149,6 +151,15 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             opacity: 1;
             transform: translateY(0);
           }
+        }
+        
+        .scrollable-content {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        
+        .scrollable-content::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
     </div>
