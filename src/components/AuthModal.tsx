@@ -132,9 +132,9 @@ export default function AuthModal({ isOpen, onOpenChange, mode, switchMode }: Au
                 >
                   <span className="inline-flex items-center justify-center rounded-full transition-all duration-200 group-hover:bg-[#23233A] group-hover:scale-110 group-hover:shadow-[0_0_8px_2px_#794DFD55]">
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="14" cy="14" r="14" fill="#23233A"/>
-                      <path d="M18 10L10 18" stroke="#B09DFF" strokeWidth="2" strokeLinecap="round"/>
-                      <path d="M10 10L18 18" stroke="#B09DFF" strokeWidth="2" strokeLinecap="round"/>
+                      <circle cx="14" cy="14" r="14" fill="#23233A" />
+                      <path d="M18 10L10 18" stroke="#B09DFF" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M10 10L18 18" stroke="#B09DFF" strokeWidth="2" strokeLinecap="round" />
                     </svg>
                   </span>
                 </button>
@@ -156,26 +156,6 @@ export default function AuthModal({ isOpen, onOpenChange, mode, switchMode }: Au
                     visible: { transition: { staggerChildren: 0.08, delayChildren: 0.22 } }
                   }}
                 >
-                  {mode === "register" && (
-                    <motion.div
-                      variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
-                    >
-                      <label className="block text-sm font-semibold text-[#B09DFF] mb-1">Confirm Password</label>
-                      <div className="relative">
-                        <input
-                          className="w-full px-4 py-2 rounded-xl bg-[#23233A] border border-[#35374F] text-white focus:outline-none focus:ring-2 focus:ring-[#794DFD] placeholder:text-[#7E7E7E] font-medium pr-10 shadow-sm transition-all duration-200 hover:border-[#794DFD] focus:border-[#794DFD]"
-                          type="password"
-                          placeholder="Confirm your password"
-                          value={confirmPassword}
-                          onChange={e => setConfirmPassword(e.target.value)}
-                          required
-                        />
-                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#B09DFF]">
-                          <LockIcon />
-                        </span>
-                      </div>
-                    </motion.div>
-                  )}
                   <motion.div
                     variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
                   >
@@ -212,6 +192,26 @@ export default function AuthModal({ isOpen, onOpenChange, mode, switchMode }: Au
                       </span>
                     </div>
                   </motion.div>
+                  {mode === "register" && (
+                    <motion.div
+                      variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+                    >
+                      <label className="block text-sm font-semibold text-[#B09DFF] mb-1">Confirm Password</label>
+                      <div className="relative">
+                        <input
+                          className="w-full px-4 py-2 rounded-xl bg-[#23233A] border border-[#35374F] text-white focus:outline-none focus:ring-2 focus:ring-[#794DFD] placeholder:text-[#7E7E7E] font-medium pr-10 shadow-sm transition-all duration-200 hover:border-[#794DFD] focus:border-[#794DFD]"
+                          type="password"
+                          placeholder="Confirm your password"
+                          value={confirmPassword}
+                          onChange={e => setConfirmPassword(e.target.value)}
+                          required
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#B09DFF]">
+                          <LockIcon />
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
                   <motion.div
                     className="flex items-center justify-between py-2 px-1 mb-2"
                     variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
