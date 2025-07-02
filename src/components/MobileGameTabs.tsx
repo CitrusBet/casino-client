@@ -28,7 +28,7 @@ export default function MobileGameTabs() {
   }
 
   return (
-    <div className="lg:hidden px-4 sm:px-[22px] py-4">
+    <div className="lg:hidden px-4 sm:px-[22px] py-4 max-xs:mt-5 mt-20-365">
       <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide py-1" 
            style={{ WebkitOverflowScrolling: 'touch' }}>
         {tabs.map((tab) => (
@@ -39,7 +39,7 @@ export default function MobileGameTabs() {
               activeTab === tab.name
                 ? 'text-white bg-gradient-to-r from-[#794DFD] to-[#6B42F0] shadow-lg'
                 : 'text-[#FFFBFF] hover:text-white hover:bg-white/8 hover:scale-105 active:scale-95'
-            } ${tab.name === 'All games' ? 'min-w-[65px]' : ''}`}
+            } ${tab.name === 'All games' ? 'min-w-[65px]' : ''} ${tab.name === 'Recommendations' ? 'recommendations-btn-small' : ''}`}
             style={{
               touchAction: 'manipulation', 
               pointerEvents: 'auto',

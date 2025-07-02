@@ -19,6 +19,17 @@
   }
 }
 
+/* Global scrollbar hiding */
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* WebKit browsers */
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -92,12 +103,38 @@ button, a, [role="button"], [tabindex] {
   }
 }
 
+/* Universal scrollbar hiding class */
 .scrollbar-hide {
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
+  display: none; /* WebKit browsers */
+}
+
+/* Hide scrollbars for all scrollable elements */
+*::-webkit-scrollbar {
   display: none;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Custom class for top margin on screens 365px and smaller */
+@media (max-width: 365px) {
+  .mt-20-365 {
+    margin-top: 20px;
+  }
+  
+  .recommendations-btn-small {
+    min-width: 95px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
 
 
