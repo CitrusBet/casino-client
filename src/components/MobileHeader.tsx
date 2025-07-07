@@ -4,12 +4,15 @@ import { Button } from '@heroui/react'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import AuthModal from './AuthModal'
+import MobileUserProfile from './MobileUserProfile'
+import { useUser } from './UserContext'
 
 export default function MobileHeader() {
   const [language, setLanguage] = useState('EN')
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false)
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login')
+  const { isAuthenticated } = useUser()
 
   const languages = [
     { code: 'EN', name: 'English' },
@@ -92,41 +95,47 @@ export default function MobileHeader() {
           </div>
           
           <div className="flex items-center gap-2 sm:gap-3">
-            <Button
-              size="sm"
-              className="bg-[#794DFD] text-white h-[30.8px] pl-7 pr-3 sm:pr-4 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-[10px] transition-all duration-200 hover:scale-105 active:scale-95"
-              style={{
-                touchAction: 'manipulation',
-                WebkitUserSelect: 'none',
-                userSelect: 'none',
-                WebkitTapHighlightColor: 'transparent',
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='8.5' cy='7' r='4'%3E%3C/circle%3E%3Cline x1='20' y1='8' x2='20' y2='14'%3E%3C/line%3E%3Cline x1='23' y1='11' x2='17' y2='11'%3E%3C/line%3E%3C/svg%3E")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: '8px center',
-                backgroundSize: '12px 12px'
-              }}
-              onClick={() => { setAuthMode('register'); setAuthModalOpen(true); }}
-            >
-              Sign up
-            </Button>
-            
-            <Button
-              size="sm"
-              className="bg-[#794DFD] text-white h-[30.8px] pl-7 pr-3 sm:pr-4 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-[10px] transition-all duration-200 hover:scale-105 active:scale-95"
-              style={{
-                touchAction: 'manipulation',
-                WebkitUserSelect: 'none',
-                userSelect: 'none',
-                WebkitTapHighlightColor: 'transparent',
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: '8px center',
-                backgroundSize: '12px 12px'
-              }}
-              onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
-            >
-              Login
-            </Button>
+            {isAuthenticated ? (
+              <MobileUserProfile />
+            ) : (
+              <>
+                <Button
+                  size="sm"
+                  className="bg-[#794DFD] text-white h-[30.8px] pl-7 pr-3 sm:pr-4 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-[10px] transition-all duration-200 hover:scale-105 active:scale-95"
+                  style={{
+                    touchAction: 'manipulation',
+                    WebkitUserSelect: 'none',
+                    userSelect: 'none',
+                    WebkitTapHighlightColor: 'transparent',
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='8.5' cy='7' r='4'%3E%3C/circle%3E%3Cline x1='20' y1='8' x2='20' y2='14'%3E%3C/line%3E%3Cline x1='23' y1='11' x2='17' y2='11'%3E%3C/line%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: '8px center',
+                    backgroundSize: '12px 12px'
+                  }}
+                  onClick={() => { setAuthMode('register'); setAuthModalOpen(true); }}
+                >
+                  Sign up
+                </Button>
+                
+                <Button
+                  size="sm"
+                  className="bg-[#794DFD] text-white h-[30.8px] pl-7 pr-3 sm:pr-4 hover:bg-[#794DFD]/90 rounded-[20px] font-medium text-[10px] transition-all duration-200 hover:scale-105 active:scale-95"
+                  style={{
+                    touchAction: 'manipulation',
+                    WebkitUserSelect: 'none',
+                    userSelect: 'none',
+                    WebkitTapHighlightColor: 'transparent',
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: '8px center',
+                    backgroundSize: '12px 12px'
+                  }}
+                  onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
+                >
+                  Login
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>
