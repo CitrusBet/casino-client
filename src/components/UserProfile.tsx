@@ -6,20 +6,84 @@ import { useUser } from './UserContext'
 
 export default function UserProfile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isBalanceMenuOpen, setIsBalanceMenuOpen] = useState(false)
+  const [selectedCurrency, setSelectedCurrency] = useState(0)
   const menuRef = useRef<HTMLDivElement>(null)
+  const balanceMenuRef = useRef<HTMLDivElement>(null)
   const { logout } = useUser()
 
-  const balance = "0,00 ₽"
+  const currencies = [
+    { 
+      flag: (
+        <div className="w-6 h-4 rounded-sm overflow-hidden flex flex-col">
+          <div className="h-1/3 bg-white"></div>
+          <div className="h-1/3 bg-blue-600"></div>
+          <div className="h-1/3 bg-red-600"></div>
+        </div>
+      ), 
+      code: 'RUB', 
+      symbol: '₽', 
+      balance: '0,00' 
+    },
+    { 
+      flag: (
+        <div className="w-6 h-4 rounded-sm overflow-hidden flex">
+          <div className="w-1/2 bg-red-600"></div>
+          <div className="w-1/2 flex flex-col">
+            <div className="h-1/2 bg-white"></div>
+            <div className="h-1/2 bg-blue-600"></div>
+          </div>
+        </div>
+      ), 
+      code: 'USD', 
+      symbol: '$', 
+      balance: '0.00' 
+    },
+    { 
+      flag: (
+        <div className="w-6 h-4 rounded-sm overflow-hidden flex flex-col">
+          <div className="h-1/3 bg-blue-600"></div>
+          <div className="h-1/3 bg-yellow-400"></div>
+          <div className="h-1/3 bg-blue-600"></div>
+        </div>
+      ), 
+      code: 'EUR', 
+      symbol: '€', 
+      balance: '0.00' 
+    },
+    { 
+      flag: (
+        <div className="w-6 h-4 rounded-sm overflow-hidden flex flex-col">
+          <div className="h-1/2 bg-blue-600"></div>
+          <div className="h-1/2 bg-yellow-400"></div>
+        </div>
+      ), 
+      code: 'UAH', 
+      symbol: '₴', 
+      balance: '0.00' 
+    },
+    { 
+      flag: (
+        <div className="w-6 h-4 rounded-sm overflow-hidden flex flex-col">
+          <div className="h-1/2 bg-cyan-400"></div>
+          <div className="h-1/2 bg-yellow-400"></div>
+        </div>
+      ), 
+      code: 'KZT', 
+      symbol: '₸', 
+      balance: '0.00' 
+    },
+  ]
 
   const menuItems = [
     { 
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
+        <Image 
+          src="/images/balance-icon.png" 
+          alt="Wallet" 
+          width={16} 
+          height={16}
+        />
       ), 
       label: 'Wallet' 
     },
@@ -79,44 +143,84 @@ export default function UserProfile() {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false)
       }
+      if (balanceMenuRef.current && !balanceMenuRef.current.contains(event.target as Node)) {
+        setIsBalanceMenuOpen(false)
+      }
     }
 
-    if (isMenuOpen) {
+    if (isMenuOpen || isBalanceMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside)
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isMenuOpen])
+  }, [isMenuOpen, isBalanceMenuOpen])
 
   return (
     <div className="flex items-center gap-4">
-      <div className="flex items-center gap-2">
-        <Image 
-          src="/images/ruble-icon.svg" 
-          alt="Currency" 
-          width={16} 
-          height={16}
-          className="text-white"
-        />
-        <span className="text-white font-medium text-sm">{balance}</span>
+      <div className="relative" ref={balanceMenuRef}>
+        <button 
+          onClick={() => setIsBalanceMenuOpen(!isBalanceMenuOpen)}
+          className="flex items-center justify-between gap-6 px-5 py-2.5 bg-[rgba(37,43,67,0.7)] backdrop-blur-sm border border-[#3A3C5C] rounded-2xl hover:border-[#3A3C5C]/80 transition-all min-w-[220px]"
+        >
+          <div className="flex items-center gap-2">
+            {currencies[selectedCurrency].flag}
+            <span className="text-white font-medium text-sm">{currencies[selectedCurrency].balance} {currencies[selectedCurrency].symbol}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <svg className={`w-3 h-3 text-white/80 transition-transform duration-200 ${isBalanceMenuOpen ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+            <div className="w-8 h-8 bg-[#794DFD] rounded-lg flex items-center justify-center">
+              <Image 
+                src="/images/balance-icon.png" 
+                alt="Balance" 
+                width={16} 
+                height={16}
+              />
+            </div>
+          </div>
+        </button>
+
+        <div className={`absolute top-full mt-2 left-0 bg-[#131420]/95 backdrop-blur-md border border-[#794DFD]/30 rounded-[16px] py-2 min-w-[220px] shadow-lg z-50 transition-all duration-300 ease-out ${
+          isBalanceMenuOpen 
+            ? 'opacity-100 translate-y-0 scale-100' 
+            : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'
+        }`}>
+          {currencies.map((currency, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setSelectedCurrency(index)
+                setIsBalanceMenuOpen(false)
+              }}
+              className={`w-full px-4 py-3 text-left text-sm font-medium transition-colors duration-200 hover:bg-[#794DFD]/20 text-[#FFFBFF] hover:text-[#794DFD] flex items-center justify-between ${
+                selectedCurrency === index ? 'bg-[#794DFD]/30 text-[#794DFD]' : ''
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                {currency.flag}
+                <span className="leading-none">{currency.code}</span>
+              </div>
+              <span className="text-[#7E7E7E]">{currency.balance} {currency.symbol}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="relative" ref={menuRef}>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="w-10 h-10 rounded-full bg-gradient-to-r from-[#794DFD] to-[#A855F7] p-[2px] hover:scale-105 transition-transform duration-200"
+          className="hover:scale-105 transition-transform duration-200"
         >
-          <div className="w-full h-full rounded-full bg-gray-700 flex items-center justify-center">
-            <Image 
-              src="/images/profile.png" 
-              alt="Profile" 
-              width={32} 
-              height={32}
-              className="rounded-full"
-            />
-          </div>
+          <Image 
+            src="/images/profile.png" 
+            alt="Profile" 
+            width={48} 
+            height={48}
+            className="rounded-full"
+          />
         </button>
 
         <div className={`absolute top-full mt-2 right-0 bg-[#131420]/95 backdrop-blur-md border border-[#794DFD]/30 rounded-[16px] py-2 min-w-[200px] shadow-lg z-50 transition-all duration-300 ease-out ${
