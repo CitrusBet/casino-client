@@ -103,7 +103,7 @@ export default function MobileUserProfile() {
         </div>
       ),
       code: 'TON',
-      symbol: 'ХУЙ',
+      symbol: 'TON',
       balance: Number(walletBalances['TON'] ?? '0').toFixed(2)
     },
     {
