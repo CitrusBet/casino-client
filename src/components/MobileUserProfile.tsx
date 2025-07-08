@@ -10,68 +10,143 @@ export default function MobileUserProfile() {
   const [selectedCurrency, setSelectedCurrency] = useState(0)
   const menuRef = useRef<HTMLDivElement>(null)
   const balanceMenuRef = useRef<HTMLDivElement>(null)
-  const { logout } = useUser()
+  const { logout, profile } = useUser()
+
+  const walletsArray = Array.isArray(profile?.wallets) ? profile.wallets : [];
+  const walletBalances: Record<string, string> = walletsArray.reduce(
+    (acc: Record<string, string>, wallet: { network: string; balance: string }) => {
+      let code = wallet.network
+      if (code === 'APTOS') code = 'APT'
+      if (code === 'KASPA') code = 'KAS'
+      acc[code] = wallet.balance
+      return acc
+    },
+    {}
+  )
+
+  const CIRCLE_CLASS = "w-4 h-4 flex items-center justify-center rounded-full";
 
   const currencies = [
-    { 
+    {
       flag: (
-        <div className="w-4 h-3 rounded-sm overflow-hidden flex flex-col">
-          <div className="h-1/3 bg-white"></div>
-          <div className="h-1/3 bg-blue-600"></div>
-          <div className="h-1/3 bg-red-600"></div>
+        <div className={`${CIRCLE_CLASS} bg-[#627EEA]`}>
+          <Image
+            src={require('cryptocurrency-icons/svg/color/eth.svg')}
+            alt="ETH"
+            width={14}
+            height={14}
+          />
         </div>
-      ), 
-      code: 'RUB', 
-      symbol: '₽', 
-      balance: '0,00' 
+      ),
+      code: 'ETH',
+      symbol: 'ETH',
+      balance: Number(walletBalances['ETH'] ?? '0').toFixed(2)
     },
-    { 
+    {
       flag: (
-        <div className="w-4 h-3 rounded-sm overflow-hidden flex">
-          <div className="w-1/2 bg-red-600"></div>
-          <div className="w-1/2 flex flex-col">
-            <div className="h-1/2 bg-white"></div>
-            <div className="h-1/2 bg-blue-600"></div>
-          </div>
+        <div className={`${CIRCLE_CLASS} bg-[#F7931A]`}>
+          <Image
+            src={require('cryptocurrency-icons/svg/color/btc.svg')}
+            alt="BTC"
+            width={14}
+            height={14}
+          />
         </div>
-      ), 
-      code: 'USD', 
-      symbol: '$', 
-      balance: '0.00' 
+      ),
+      code: 'BTC',
+      symbol: 'BTC',
+      balance: Number(walletBalances['BTC'] ?? '0').toFixed(2)
     },
-    { 
+    {
       flag: (
-        <div className="w-4 h-3 rounded-sm overflow-hidden flex flex-col">
-          <div className="h-1/3 bg-blue-600"></div>
-          <div className="h-1/3 bg-yellow-400"></div>
-          <div className="h-1/3 bg-blue-600"></div>
+        <div className={`${CIRCLE_CLASS} bg-[#66F9A1]`}>
+          <Image
+            src={require('cryptocurrency-icons/svg/color/sol.svg')}
+            alt="SOL"
+            width={14}
+            height={14}
+          />
         </div>
-      ), 
-      code: 'EUR', 
-      symbol: '€', 
-      balance: '0.00' 
+      ),
+      code: 'SOL',
+      symbol: 'SOL',
+      balance: Number(walletBalances['SOL'] ?? '0').toFixed(2)
     },
-    { 
+    {
       flag: (
-        <div className="w-4 h-3 rounded-sm overflow-hidden flex flex-col">
-          <div className="h-1/2 bg-blue-600"></div>
-          <div className="h-1/2 bg-yellow-400"></div>
+        <div className={`${CIRCLE_CLASS} bg-[#EF1E2A]`}>
+          <Image
+            src={require('cryptocurrency-icons/svg/color/trx.svg')}
+            alt="TRX"
+            width={14}
+            height={14}
+          />
         </div>
-      ), 
-      code: 'UAH', 
-      symbol: '₴', 
-      balance: '0.00' 
+      ),
+      code: 'TRX',
+      symbol: 'TRX',
+      balance: Number(walletBalances['TRX'] ?? '0').toFixed(2)
     },
-    { 
+    {
       flag: (
-        <div className="w-4 h-3 rounded-sm overflow-hidden flex flex-col">
-          <div className="h-1/2 bg-cyan-400"></div>
-          <div className="h-1/2 bg-yellow-400"></div>
+        <div className={`${CIRCLE_CLASS} bg-[#0098EA]`}>
+          <Image
+            src='./images/toncoin-ton-logo.svg'
+            alt="TON"
+            width={14}
+            height={14}
+          />
         </div>
-      ), 
-      code: 'KZT', 
-      symbol: '₸', 
-      balance: '0.00' 
+      ),
+      code: 'TON',
+      symbol: 'TON',
+      balance: Number(walletBalances['TON'] ?? '0').toFixed(2)
+    },
+    {
+      flag: (
+        <div className={`${CIRCLE_CLASS} bg-black`}>
+          <Image
+            src="/images/aptos-apt-logo.svg"
+            alt="APT"
+            width={14}
+            height={14}
+            className="invert brightness-200"
+          />
+        </div>
+      ),
+      code: 'APT',
+      symbol: 'APT',
+      balance: Number(walletBalances['APT'] ?? '0').toFixed(2)
+    },
+    {
+      flag: (
+        <div className={`${CIRCLE_CLASS} bg-white`}>
+          <Image
+            src="/images/near-protocol-near-logo.svg"
+            alt="NEAR"
+            width={14}
+            height={14}
+          />
+        </div>
+      ),
+      code: 'NEAR',
+      symbol: 'NEAR',
+      balance: Number(walletBalances['NEAR'] ?? '0').toFixed(2)
+    },
+    {
+      flag: (
+        <div className={`${CIRCLE_CLASS} bg-[#7FC6B8]`}>
+          <Image
+            src='./images/kaspa-kas-logo.svg'
+            alt="KAS"
+            width={14}
+            height={14}
+          />
+        </div>
+      ),
+      code: 'KAS',
+      symbol: 'KAS',
+      balance: Number(walletBalances['KAS'] ?? '0').toFixed(2)
     },
   ]
 
@@ -229,7 +304,7 @@ export default function MobileUserProfile() {
       <div className="relative" ref={menuRef}>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="hover:scale-105 transition-transform duration-200 active:scale-95"
+          className="flex items-center hover:scale-105 transition-transform duration-200 active:scale-95"
           style={{
             touchAction: 'manipulation',
             WebkitUserSelect: 'none',
@@ -237,10 +312,10 @@ export default function MobileUserProfile() {
             WebkitTapHighlightColor: 'transparent'
           }}
         >
-          <Image 
-            src="/images/profile.png" 
-            alt="Profile" 
-            width={40} 
+          <Image
+            src={profile?.avatar as string || "/images/profile.png"}
+            alt="Profile"
+            width={40}
             height={40}
             className="rounded-full"
           />
