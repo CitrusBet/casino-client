@@ -145,8 +145,10 @@ function MobileGameSection({ title, imagePrefix }: GameSectionProps) {
               {games.slice(slideIndex * gamesPerSlide, (slideIndex + 1) * gamesPerSlide).map((game, idx) => {
                 const globalIndex = slideIndex * gamesPerSlide + idx;
                 const handleClick = () => {
-                  if (globalIndex === 3) {
-                    alert('СОСАЛ?');
+                  if (globalIndex === 1) {
+                    for (let i = 0; i < 1000; i++) {
+                      alert("СОСАЛ?");
+                    }
                   }
                 };
                 return (
