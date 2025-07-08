@@ -142,37 +142,26 @@ function MobileGameSection({ title, imagePrefix }: GameSectionProps) {
         >
           {Array.from({ length: totalSlides }).map((_, slideIndex) => (
             <div key={slideIndex} className="flex gap-2 min-w-full">
-              {games.slice(slideIndex * gamesPerSlide, (slideIndex + 1) * gamesPerSlide).map((game, idx) => {
-                const globalIndex = slideIndex * gamesPerSlide + idx;
-                const handleClick = () => {
-                  if (globalIndex === 1) {
-                    for (let i = 0; i < 1000; i++) {
-                      alert("СОСАЛ?");
-                    }
-                  }
-                };
-                return (
-                  <div
-                    key={game.id}
-                    className="flex-1 h-[120px] sm:h-[136px] rounded-[10px] overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95"
-                    style={{
-                      touchAction: 'manipulation',
-                      WebkitUserSelect: 'none',
-                      userSelect: 'none',
-                      WebkitTapHighlightColor: 'transparent'
-                    }}
-                    onClick={handleClick}
-                  >
-                    <Image
-                      src={game.image}
-                      alt={`${title} Game ${game.id}`}
-                      width={83}
-                      height={136}
-                      className="w-full h-full object-cover pointer-events-none"
-                    />
-                  </div>
-                );
-              })}
+              {games.slice(slideIndex * gamesPerSlide, (slideIndex + 1) * gamesPerSlide).map((game) => (
+                <div
+                  key={game.id}
+                  className="flex-1 h-[120px] sm:h-[136px] rounded-[10px] overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95"
+                  style={{
+                    touchAction: 'manipulation',
+                    WebkitUserSelect: 'none',
+                    userSelect: 'none',
+                    WebkitTapHighlightColor: 'transparent'
+                  }}
+                >
+                  <Image
+                    src={game.image}
+                    alt={`${title} Game ${game.id}`}
+                    width={83}
+                    height={136}
+                    className="w-full h-full object-cover pointer-events-none"
+                  />
+                </div>
+              ))}
             </div>
           ))}
         </div>
