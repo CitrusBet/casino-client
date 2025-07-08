@@ -3,6 +3,10 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { useUser } from './UserContext'
+import ethIcon from 'cryptocurrency-icons/svg/color/eth.svg';
+import btcIcon from 'cryptocurrency-icons/svg/color/btc.svg';
+import solIcon from 'cryptocurrency-icons/svg/color/sol.svg';
+import trxIcon from 'cryptocurrency-icons/svg/color/trx.svg';
 
 export default function UserProfile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -31,7 +35,7 @@ export default function UserProfile() {
       flag: (
         <div className={`${CIRCLE_CLASS} bg-[#627EEA]`}>
           <Image
-            src={require('cryptocurrency-icons/svg/color/eth.svg')}
+            src={ethIcon}
             alt="ETH"
             width={20}
             height={20}
@@ -46,7 +50,7 @@ export default function UserProfile() {
       flag: (
         <div className={`${CIRCLE_CLASS} bg-[#F7931A]`}>
           <Image
-            src={require('cryptocurrency-icons/svg/color/btc.svg')}
+            src={btcIcon}
             alt="BTC"
             width={20}
             height={20}
@@ -61,7 +65,7 @@ export default function UserProfile() {
       flag: (
         <div className={`${CIRCLE_CLASS} bg-[#66F9A1]`}>
           <Image
-            src={require('cryptocurrency-icons/svg/color/sol.svg')}
+            src={solIcon}
             alt="SOL"
             width={20}
             height={20}
@@ -76,7 +80,7 @@ export default function UserProfile() {
       flag: (
         <div className={`${CIRCLE_CLASS} bg-[#EF1E2A]`}>
           <Image
-            src={require('cryptocurrency-icons/svg/color/trx.svg')}
+            src={trxIcon}
             alt="TRX"
             width={20}
             height={20}
