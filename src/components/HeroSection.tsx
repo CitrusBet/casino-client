@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react'
 import { LiaDiceSolid } from 'react-icons/lia'
 
 export default function HeroSection() {
-  const [activeTab, setActiveTab] = useState('New')
+  const [activeTab, setActiveTab] = useState('All games')
   const [clickedButton, setClickedButton] = useState<string | null>(null)
 
   const tabs = [
