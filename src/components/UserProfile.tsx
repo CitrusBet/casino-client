@@ -296,7 +296,7 @@ export default function UserProfile() {
             alt="Profile"
             width={48}
             height={48}
-            className="rounded-full"
+            className="rounded-full object-cover"
           />
         </button>
 
