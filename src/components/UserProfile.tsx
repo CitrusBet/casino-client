@@ -289,15 +289,17 @@ export default function UserProfile() {
       <div className="relative" ref={menuRef}>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="hover:scale-105 transition-transform duration-200"
+          className="flex items-center hover:scale-105 transition-transform duration-200"
         >
-          <Image
-            src={profile?.avatar as string || "/images/profile.png"}
-            alt="Profile"
-            width={48}
-            height={48}
-            className="rounded-full object-cover"
-          />
+          <div className="w-12 h-12 rounded-full overflow-hidden">
+            <Image
+              src={profile?.avatar as string || "/images/profile.png"}
+              alt="Profile"
+              width={48}
+              height={48}
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
         </button>
 
         <div className={`absolute top-full mt-2 right-0 bg-[#131420]/95 backdrop-blur-md border border-[#794DFD]/30 rounded-[16px] py-2 min-w-[200px] shadow-lg z-50 transition-all duration-300 ease-out ${isMenuOpen

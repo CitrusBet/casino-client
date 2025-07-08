@@ -316,13 +316,15 @@ export default function MobileUserProfile() {
             WebkitTapHighlightColor: 'transparent'
           }}
         >
-          <Image
-            src={profile?.avatar as string || "/images/profile.png"}
-            alt="Profile"
-            width={40}
-            height={40}
-            className="rounded-full object-cover"
-          />
+          <div className="w-10 h-10 rounded-full overflow-hidden">
+            <Image
+              src={profile?.avatar as string || "/images/profile.png"}
+              alt="Profile"
+              width={40}
+              height={40}
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
         </button>
 
         <div className={`absolute top-full mt-1 right-0 bg-[#131420]/95 backdrop-blur-md border border-[#794DFD]/30 rounded-[12px] py-2 min-w-[160px] shadow-lg z-[60] transition-all duration-300 ease-out ${
