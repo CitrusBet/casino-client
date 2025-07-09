@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { useUser } from './UserContext'
+import ProfileModal from './ProfileModal'
 import ethIcon from 'cryptocurrency-icons/svg/color/eth.svg';
 import btcIcon from 'cryptocurrency-icons/svg/color/btc.svg';
 import solIcon from 'cryptocurrency-icons/svg/color/sol.svg';
@@ -11,6 +12,7 @@ import trxIcon from 'cryptocurrency-icons/svg/color/trx.svg';
 export default function MobileUserProfile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isBalanceMenuOpen, setIsBalanceMenuOpen] = useState(false)
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState(0)
   const menuRef = useRef<HTMLDivElement>(null)
   const balanceMenuRef = useRef<HTMLDivElement>(null)
@@ -202,7 +204,8 @@ export default function MobileUserProfile() {
           <circle cx="12" cy="7" r="4"/>
         </svg>
       ), 
-      label: 'My Profile' 
+      label: 'My Profile',
+      action: () => setIsProfileModalOpen(true)
     },
     { 
       icon: (
@@ -239,7 +242,12 @@ export default function MobileUserProfile() {
   }, [isMenuOpen, isBalanceMenuOpen])
 
   return (
-    <div className="flex items-center gap-2">
+    <>
+      <ProfileModal 
+        isOpen={isProfileModalOpen} 
+        onOpenChange={setIsProfileModalOpen} 
+      />
+      <div className="flex items-center gap-2">
       <div className="relative" ref={balanceMenuRef}>
         <button 
           onClick={() => setIsBalanceMenuOpen(!isBalanceMenuOpen)}
@@ -361,5 +369,6 @@ export default function MobileUserProfile() {
         </div>
       </div>
     </div>
+    </>
   )
 } 
