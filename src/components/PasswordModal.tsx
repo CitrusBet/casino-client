@@ -141,7 +141,7 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                     className="w-full bg-[#3A3F58] border border-[#4A5068] rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#794DFD] transition-colors"
-                    placeholder="••••••••••••••••••••••••"
+                    placeholder="••••••••"
                     required
                   />
                 </div>
@@ -153,7 +153,7 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full bg-[#3A3F58] border border-[#4A5068] rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#794DFD] transition-colors"
-                    placeholder="••••••••••••••••••••••••"
+                    placeholder="••••••••"
                     required
                   />
                 </div>
@@ -165,7 +165,7 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className="w-full bg-[#3A3F58] border border-[#4A5068] rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#794DFD] transition-colors"
-                    placeholder="••••••••••••••••••••••••"
+                    placeholder="••••••••"
                     required
                   />
                 </div>
