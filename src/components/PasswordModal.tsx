@@ -10,7 +10,7 @@ interface PasswordModalProps {
   onBack: () => void
 }
 
-export default function PasswordModal({ isOpen, onOpenChange, onBack }: PasswordModalProps) {
+export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
