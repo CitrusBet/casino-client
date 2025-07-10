@@ -78,18 +78,17 @@ export default function ProfileModal({ isOpen, onOpenChange }: ProfileModalProps
             exit={{ y: 60, opacity: 0, scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 400, damping: 32, duration: 0.35 }}
           >
+            <button
+              className="absolute top-4 right-4 z-20 text-gray-400 hover:text-white text-xl focus:outline-none transition-colors"
+              onClick={() => onOpenChange(false)}
+              aria-label="Close"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
             <div className="bg-[#131420] rounded-[24px] p-6 flex flex-col items-center relative max-h-[80vh] overflow-y-auto">
-              <button
-                className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl focus:outline-none transition-colors"
-                onClick={() => onOpenChange(false)}
-                aria-label="Close"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </button>
-
               <motion.div
                 className="flex flex-col items-center mb-6"
                 initial={{ opacity: 0, y: -20 }}

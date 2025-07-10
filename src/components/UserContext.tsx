@@ -24,7 +24,7 @@ interface UserContextType {
   register: (userData: Credentials) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (userData: Credentials) => Promise<void>;
-  updatePassword: (oldPassword: string, newPassword: string) => Promise<void>; // Added
+  updatePassword: (oldPassword: string, newPassword: string) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
