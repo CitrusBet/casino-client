@@ -171,7 +171,18 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       if (!response.ok) {
         throw new Error(data.message || 'Profile update failed');
       }
-      setProfile(data);
+      setProfile((prevProfile) => {
+        if (!prevProfile) return prevProfile;
+        let changed = false;
+        const updatedProfile = { ...prevProfile };
+        Object.keys(userData).forEach((key) => {
+          if (userData[key] !== undefined && prevProfile[key] !== userData[key]) {
+            updatedProfile[key] = userData[key];
+            changed = true;
+          }
+        });
+        return changed ? updatedProfile : prevProfile;
+      });
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || 'Profile update failed');
