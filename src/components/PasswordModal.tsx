@@ -172,9 +172,6 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
                 {formError && (
                   <div className="text-red-500 text-sm">{formError}</div>
                 )}
-                {error && (
-                  <div className="text-red-500 text-sm">{error}</div>
-                )}
                 {success && (
                   <div className="text-green-500 text-sm">Password updated successfully!</div>
                 )}
