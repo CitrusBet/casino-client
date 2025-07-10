@@ -61,8 +61,11 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
         await updatePassword(currentPassword, password);
         setSuccess(true);
         onBack();
-      } catch (err: any) {
-        setFormError(err?.message || 'Failed to update password');
+      } catch (err: unknown) {
+        const message = typeof err === 'object' && err && 'message' in err
+          ? String((err as { message?: unknown }).message)
+          : 'Failed to update password';
+        setFormError(message);
       }
     } else {
       setFormError('Passwords do not match or fields are empty');

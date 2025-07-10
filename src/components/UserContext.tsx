@@ -29,6 +29,24 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | null>(null);
 
+export const uploadMedia = async (file: File, token: string): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`${API_URL}/cloud/storage/upload`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    body: formData,
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || 'File upload failed');
+  }
+  return `${API_URL}/cloud/storage/get/${data.data.fileName}`;
+};
+
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -247,7 +265,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     register,
     logout,
     updateProfile,
-    updatePassword, // Added
+    updatePassword,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

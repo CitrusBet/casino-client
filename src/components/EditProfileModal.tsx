@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
-import { useUser } from './UserContext'
+import { useUser, uploadMedia } from './UserContext'
 
 interface EditProfileModalProps {
   isOpen: boolean
@@ -16,13 +16,20 @@ export default function EditProfileModal({ isOpen, onBack }: EditProfileModalPro
   const modalRef = useRef<HTMLDivElement>(null)
   const [username, setUsername] = useState('')
   const [error, setError] = useState('')
+  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
+  const [avatarUploadError, setAvatarUploadError] = useState('')
+  const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
     if (isOpen && profile?.username) {
       setUsername(profile.username)
       setError('')
+      setAvatarPreview(profile.avatar as string || '/images/profile.png')
+      setAvatarFile(null)
+      setAvatarUploadError('')
     }
-  }, [isOpen, profile?.username])
+  }, [isOpen, profile?.username, profile?.avatar])
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -52,21 +59,50 @@ export default function EditProfileModal({ isOpen, onBack }: EditProfileModalPro
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isOpen, onBack])
 
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setAvatarFile(file)
+      setAvatarPreview(URL.createObjectURL(file))
+      setAvatarUploadError('')
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (username.trim().length > 0) {
       try {
         setError('')
-        await updateProfile({ username: username.trim() })
-        onBack()
-              } catch {
-          setError('Не удалось обновить профиль. Попробуйте еще раз.')
+        let avatarUrl = profile?.avatar
+        if (avatarFile) {
+          setIsUploading(true)
+          try {
+            avatarUrl = await uploadMedia(avatarFile, localStorage.getItem('token') || '')
+          } catch (uploadErr: unknown) {
+            const message = typeof uploadErr === 'object' && uploadErr && 'message' in uploadErr
+              ? String((uploadErr as { message?: unknown }).message)
+              : '\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u0430\u0432\u0430\u0442\u0430\u0440.'
+            setAvatarUploadError(message)
+            setIsUploading(false)
+            return
+          }
+          setIsUploading(false)
         }
+        await updateProfile({ username: username.trim(), avatar: avatarUrl })
+        onBack()
+      } catch {
+        setError('Не удалось обновить профиль. Попробуйте еще раз.')
+      }
     }
   }
 
   const handleEditAvatar = () => {
-    console.log('Edit avatar clicked')
+    if (isUploading) return
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/*'
+    input.onchange = (e) => handleAvatarChange(e as unknown as React.ChangeEvent<HTMLInputElement>)
+    input.click()
   }
 
   if (typeof window === 'undefined' || !isOpen) return null
@@ -118,7 +154,7 @@ export default function EditProfileModal({ isOpen, onBack }: EditProfileModalPro
                 <div className="relative mb-6">
                   <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#794DFD]">
                     <Image
-                      src={profile?.avatar as string || "/images/profile.png"}
+                      src={avatarPreview || "/images/profile.png"}
                       alt="Profile"
                       width={80}
                       height={80}
@@ -130,9 +166,15 @@ export default function EditProfileModal({ isOpen, onBack }: EditProfileModalPro
                 <button
                   onClick={handleEditAvatar}
                   className="w-full bg-[#794DFD] text-white text-sm font-medium py-3 px-4 rounded-xl hover:bg-[#6B42F0] transition-colors mb-6"
+                  disabled={isUploading}
                 >
-                  Edit avatar
+                  {isUploading ? 'Uploading...' : 'Edit avatar'}
                 </button>
+                {avatarUploadError && (
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-2 text-red-400 text-xs mb-2">
+                    {avatarUploadError}
+                  </div>
+                )}
               </motion.div>
 
               <motion.form
@@ -165,9 +207,9 @@ export default function EditProfileModal({ isOpen, onBack }: EditProfileModalPro
                 <button
                   type="submit"
                   className="w-full bg-[#794DFD] text-white text-sm font-medium py-3 px-4 rounded-xl hover:bg-[#6B42F0] transition-colors mt-8 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={!username.trim() || isLoading}
+                  disabled={!username.trim() || isLoading || isUploading}
                 >
-                  {isLoading ? 'Сохранение...' : 'Save changes'}
+                  {isLoading || isUploading ? 'Сохранение...' : 'Save changes'}
                 </button>
               </motion.form>
             </div>
