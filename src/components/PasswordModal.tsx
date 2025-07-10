@@ -16,7 +16,7 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [currentPassword, setCurrentPassword] = useState('')
-  const { updatePassword, isLoading, error } = useUser();
+  const { updatePassword, isLoading } = useUser();
   const [formError, setFormError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
