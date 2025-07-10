@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createPortal } from 'react-dom'
+import { useUser } from './UserContext'
 
 interface PasswordModalProps {
   isOpen: boolean
@@ -14,6 +15,10 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [currentPassword, setCurrentPassword] = useState('')
+  const { updatePassword, isLoading, error } = useUser();
+  const [formError, setFormError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -43,11 +48,24 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isOpen, onBack])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (password === confirmPassword && password.length > 0) {
-      console.log('Password updated')
-      onBack()
+    setFormError(null);
+    setSuccess(false);
+    if (
+      currentPassword.length > 0 &&
+      password === confirmPassword &&
+      password.length > 0
+    ) {
+      try {
+        await updatePassword(currentPassword, password);
+        setSuccess(true);
+        onBack();
+      } catch (err: any) {
+        setFormError(err?.message || 'Failed to update password');
+      }
+    } else {
+      setFormError('Passwords do not match or fields are empty');
     }
   }
 
@@ -114,6 +132,18 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
                 transition={{ delay: 0.2, duration: 0.4 }}
               >
                 <div>
+                  <label className="block text-gray-400 text-sm font-medium mb-2">Current password</label>
+                  <input
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="w-full bg-[#3A3F58] border border-[#4A5068] rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#794DFD] transition-colors"
+                    placeholder="••••••••••••••••••••••••"
+                    required
+                  />
+                </div>
+
+                <div>
                   <label className="block text-gray-400 text-sm font-medium mb-2">Password</label>
                   <input
                     type="password"
@@ -136,13 +166,27 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
                     required
                   />
                 </div>
-
+                {formError && (
+                  <div className="text-red-500 text-sm">{formError}</div>
+                )}
+                {error && (
+                  <div className="text-red-500 text-sm">{error}</div>
+                )}
+                {success && (
+                  <div className="text-green-500 text-sm">Password updated successfully!</div>
+                )}
                 <button
                   type="submit"
                   className="w-full bg-[#794DFD] text-white text-sm font-medium py-3 px-4 rounded-xl hover:bg-[#6B42F0] transition-colors mt-8"
-                  disabled={!password || !confirmPassword || password !== confirmPassword}
+                  disabled={
+                    !currentPassword ||
+                    !password ||
+                    !confirmPassword ||
+                    password !== confirmPassword ||
+                    isLoading
+                  }
                 >
-                  Save changes
+                  {isLoading ? 'Saving...' : 'Save changes'}
                 </button>
               </motion.form>
             </div>

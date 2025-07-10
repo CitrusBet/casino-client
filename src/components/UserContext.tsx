@@ -24,6 +24,7 @@ interface UserContextType {
   register: (userData: Credentials) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (userData: Credentials) => Promise<void>;
+  updatePassword: (oldPassword: string, newPassword: string) => Promise<void>; // Added
 }
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -196,6 +197,35 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [token]);
 
+  const updatePassword = useCallback(async (oldPassword: string, newPassword: string) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/auth/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ password: { old: oldPassword, new: newPassword } }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Password update failed');
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Password update failed');
+        throw err;
+      } else {
+        setError('Password update failed');
+        throw new Error('Password update failed');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [token]);
+
   useEffect(() => {
     if (token) {
       fetchProfile(token).catch(() => {
@@ -217,6 +247,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     register,
     logout,
     updateProfile,
+    updatePassword, // Added
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
