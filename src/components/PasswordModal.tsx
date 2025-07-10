@@ -16,7 +16,7 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [currentPassword, setCurrentPassword] = useState('')
-  const { updatePassword, isLoading } = useUser();
+  const { updatePassword, isLoading, error } = useUser();
   const [formError, setFormError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
@@ -172,6 +172,9 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
                 {formError && (
                   <div className="text-red-500 text-sm">{formError}</div>
                 )}
+                {!formError && error && (
+                  <div className="text-red-500 text-sm">{error}</div>
+                )}
                 {success && (
                   <div className="text-green-500 text-sm">Password updated successfully!</div>
                 )}
@@ -182,7 +185,6 @@ export default function PasswordModal({ isOpen, onBack }: PasswordModalProps) {
                     !currentPassword ||
                     !password ||
                     !confirmPassword ||
-                    password !== confirmPassword ||
                     isLoading
                   }
                 >
