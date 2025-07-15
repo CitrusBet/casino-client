@@ -8,12 +8,14 @@ import ethIcon from 'cryptocurrency-icons/svg/color/eth.svg';
 import btcIcon from 'cryptocurrency-icons/svg/color/btc.svg';
 import solIcon from 'cryptocurrency-icons/svg/color/sol.svg';
 import trxIcon from 'cryptocurrency-icons/svg/color/trx.svg';
+import DepositModal from './DepositModal';
 
 export default function MobileUserProfile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isBalanceMenuOpen, setIsBalanceMenuOpen] = useState(false)
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState(0)
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null)
   const balanceMenuRef = useRef<HTMLDivElement>(null)
   const { logout, profile } = useUser()
@@ -247,6 +249,7 @@ export default function MobileUserProfile() {
         isOpen={isProfileModalOpen} 
         onOpenChange={setIsProfileModalOpen} 
       />
+      <DepositModal isOpen={isDepositModalOpen} onClose={() => setIsDepositModalOpen(false)} currencies={currencies} />
       <div className="flex items-center gap-2">
       <div className="relative" ref={balanceMenuRef}>
         <button 
@@ -267,7 +270,7 @@ export default function MobileUserProfile() {
             <svg className={`w-2 h-2 text-white/80 transition-transform duration-200 ${isBalanceMenuOpen ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
-            <div className="w-6 h-6 bg-[#794DFD] rounded-md flex items-center justify-center">
+            <div className="w-6 h-6 bg-[#794DFD] rounded-md flex items-center justify-center" onClick={e => { e.stopPropagation(); setIsDepositModalOpen(true); setIsBalanceMenuOpen(false); }} style={{ cursor: 'pointer' }}>
               <Image 
                 src="/images/balance-icon.png" 
                 alt="Balance" 
