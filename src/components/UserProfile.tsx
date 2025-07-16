@@ -9,12 +9,13 @@ import btcIcon from 'cryptocurrency-icons/svg/color/btc.svg';
 import solIcon from 'cryptocurrency-icons/svg/color/sol.svg';
 import trxIcon from 'cryptocurrency-icons/svg/color/trx.svg';
 import DepositModal from './DepositModal';
+import { useCurrency } from './CurrencyContext'
 
 export default function UserProfile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isBalanceMenuOpen, setIsBalanceMenuOpen] = useState(false)
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
-  const [selectedCurrency, setSelectedCurrency] = useState(0)
+  const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null)
   const balanceMenuRef = useRef<HTMLDivElement>(null)

@@ -7,7 +7,14 @@ interface UserProfile {
   id?: string;
   username?: string;
   email?: string;
+  wallets?: Wallet[];
   [key: string]: unknown;
+}
+
+interface Wallet {
+  address: string;
+  network: string;
+  balance: string;
 }
 
 interface Credentials {
@@ -60,6 +67,34 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    const fetchWallets = async (authToken: string) => {
+      try {
+        const response = await fetch(`${API_URL}/auth/profile/balance`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+          },
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setProfile((prev) => prev ? { ...prev, wallets: data?.wallets || data || [] } : prev);
+        }
+      } catch (err) {
+        console.log("Error fetching balance", err);
+      }
+    };
+    if (token) {
+      fetchWallets(token);
+      interval = setInterval(() => {
+        fetchWallets(token);
+      }, 20000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [token]);
+
   const fetchProfile = useCallback(async (authToken: string | null) => {
     if (!authToken) return;
     try {
@@ -72,7 +107,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       if (!response.ok) {
         throw new Error(data.message || 'Failed to fetch profile');
       }
-      setProfile(data);
+      setProfile((prev) => ({ ...data, wallets: prev?.wallets || [] }));
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || 'Failed to fetch profile');
@@ -83,6 +118,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      fetchProfile(token);
+    }
+  }, [token, fetchProfile]);
 
   const login = useCallback(async (credentials: Credentials) => {
     setIsLoading(true);
@@ -153,24 +194,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, [fetchProfile]);
 
   const logout = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      setToken(null);
-      setProfile(null);
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message || 'Logout failed');
-        throw err;
-      } else {
-        setError('Logout failed');
-        throw new Error('Logout failed');
-      }
-    } finally {
-      setIsLoading(false);
+    setToken(null);
+    setProfile(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
     }
   }, []);
 
@@ -188,27 +215,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       });
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.message || 'Profile update failed');
+        throw new Error(data.message || 'Failed to update profile');
       }
-      setProfile((prevProfile) => {
-        if (!prevProfile) return prevProfile;
-        let changed = false;
-        const updatedProfile = { ...prevProfile };
-        Object.keys(userData).forEach((key) => {
-          if (userData[key] !== undefined && prevProfile[key] !== userData[key]) {
-            updatedProfile[key] = userData[key];
-            changed = true;
-          }
-        });
-        return changed ? updatedProfile : prevProfile;
-      });
+      setProfile(data);
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message || 'Profile update failed');
+        setError(err.message || 'Failed to update profile');
         throw err;
       } else {
-        setError('Profile update failed');
-        throw new Error('Profile update failed');
+        setError('Failed to update profile');
+        throw new Error('Failed to update profile');
       }
     } finally {
       setIsLoading(false);
@@ -219,41 +235,30 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_URL}/auth/profile`, {
+      const response = await fetch(`${API_URL}/auth/password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ password: { old: oldPassword, new: newPassword } }),
+        body: JSON.stringify({ oldPassword, newPassword }),
       });
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.message || 'Password update failed');
+        throw new Error(data.message || 'Failed to update password');
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message || 'Password update failed');
+        setError(err.message || 'Failed to update password');
         throw err;
       } else {
-        setError('Password update failed');
-        throw new Error('Password update failed');
+        setError('Failed to update password');
+        throw new Error('Failed to update password');
       }
     } finally {
       setIsLoading(false);
     }
   }, [token]);
-
-  useEffect(() => {
-    if (token) {
-      fetchProfile(token).catch(() => {
-        setToken(null);
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('token');
-        }
-      });
-    }
-  }, [token, fetchProfile]);
 
   const value: UserContextType = {
     token,
@@ -268,15 +273,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     updatePassword,
   };
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={value}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (!context) {
+  if (context === null) {
     throw new Error('useUser must be used within a UserProvider');
   }
   return context;
 };
-
-export default UserContext; 

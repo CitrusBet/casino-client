@@ -9,12 +9,13 @@ import btcIcon from 'cryptocurrency-icons/svg/color/btc.svg';
 import solIcon from 'cryptocurrency-icons/svg/color/sol.svg';
 import trxIcon from 'cryptocurrency-icons/svg/color/trx.svg';
 import DepositModal from './DepositModal';
+import { useCurrency } from './CurrencyContext'
 
 export default function MobileUserProfile() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isBalanceMenuOpen, setIsBalanceMenuOpen] = useState(false)
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
-  const [selectedCurrency, setSelectedCurrency] = useState(0)
+  const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null)
   const balanceMenuRef = useRef<HTMLDivElement>(null)
@@ -223,6 +224,20 @@ export default function MobileUserProfile() {
   ]
 
   useEffect(() => {
+    const updateCurrency = () => {
+      const savedCurrency = localStorage.getItem('selectedCurrencyIndex');
+      if (savedCurrency !== null) {
+        setSelectedCurrency(Number(savedCurrency));
+      }
+    };
+    updateCurrency();
+    window.addEventListener('selectedCurrencyIndexChange', updateCurrency);
+    return () => {
+      window.removeEventListener('selectedCurrencyIndexChange', updateCurrency);
+    };
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false)
@@ -285,7 +300,7 @@ export default function MobileUserProfile() {
           isBalanceMenuOpen 
             ? 'opacity-100 translate-y-0 scale-100' 
             : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'
-        }`}>
+          }`}>
           {currencies.map((currency, index) => (
             <button
               key={index}
